@@ -1,0 +1,24 @@
+{
+  "name": "rainfall-demonstrator",
+  "version": "0.0.1",
+  "description": "Demonstrate the use of the new Environment Agency rainfall data API",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "browser-sync": "^2.15.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-if": "^2.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-useref": "^3.1.2",
+    "run-sequence": "^1.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ian Dickinson, Epimorphics Ltd",
+  "license": "MIT"
+}
