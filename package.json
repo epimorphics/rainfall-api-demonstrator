@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "description": "Demonstrate the use of the new Environment Agency rainfall data API",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "babel-polyfill": "^6.13.0"
+  },
   "devDependencies": {
+    "babel-core": "^6.14.0",
     "babel-preset-es2015": "^6.14.0",
     "browser-sync": "^2.15.0",
     "del": "^2.2.2",
@@ -14,11 +17,18 @@
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^2.0.0",
     "gulp-useref": "^3.1.2",
-    "run-sequence": "^1.2.2"
+    "gulp-webdriver": "^2.0.2",
+    "mocha": "^3.0.2",
+    "run-sequence": "^1.2.2",
+    "selenium-standalone": "^5.6.3",
+    "wdio-mocha-framework": "^0.4.1",
+    "wdio-spec-reporter": "0.0.3",
+    "webdriverio": "^4.2.11"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ian Dickinson, Epimorphics Ltd",
-  "license": "MIT"
+  "license": "MIT",
+  "private": true
 }

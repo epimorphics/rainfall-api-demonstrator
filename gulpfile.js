@@ -1,86 +1,149 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var browserSync = require('browser-sync').create();
-var useref = require('gulp-useref');
-var uglify = require('gulp-uglify');
-var gulpIf = require('gulp-if');
-var del = require('del');
-var runSequence = require('run-sequence');
-var gulp = require('gulp');
-var babel = require('gulp-babel');
+"use strict";
+
+var gulp = require("gulp");
+var sass = require("gulp-sass");
+var browserSync = require("browser-sync");
+var useref = require("gulp-useref");
+var uglify = require("gulp-uglify");
+var gulpIf = require("gulp-if");
+var del = require("del");
+var runSequence = require("run-sequence");
+var gulp = require("gulp");
+var babel = require("gulp-babel");
+var selenium = require("selenium-standalone");
+var webdriver = require("gulp-webdriver");
+
+var devBrowserSync = browserSync.create();
+var testingBrowserSync = browserSync.create();
+
+var seleniumServer;
+
+// Source code translation
 
 function sassTask() {
   return gulp
-    .src('app/scss/**/*.scss')
+    .src("app/scss/**/*.scss")
     .pipe(sass())
-    .pipe(gulp.dest('app/css'))
+    .pipe(gulp.dest("app/css"))
     .pipe(browserSync.reload({
       stream: true
     }));
 }
-gulp.task('sass', sassTask);
+gulp.task("sass", sassTask);
 
 function babelTask() {
   gulp
-    .src('app/es/**/*.js')
+    .src("app/es/**/*.js")
     .pipe(babel({
-      presets: ['es2015']
+      presets: ["es2015"]
     }))
-    .pipe(gulp.dest('app/js'));
+    .pipe(gulp.dest("app/js"));
 }
 
-gulp.task('babel', babelTask);
+gulp.task("babel", babelTask);
+
+// Development web server
 
 function browserSyncTask( done ) {
-  browserSync.init({
+  devBrowserSync.init({
     server: {
-      baseDir: 'app'
+      baseDir: "app"
     },
+    browser: ["google chrome"]
   });
   done();
 }
-gulp.task('browserSync', browserSyncTask);
+gulp.task("browserSync", browserSyncTask);
 
 function watchTask( done ) {
-  gulp.watch('app/scss/**/*.scss', ['sass']);
-  gulp.watch('app/es/**/*.js', ['babel']);
-  gulp.watch('app/*.html', browserSync.reload);
-  gulp.watch('app/js/**/*.js', browserSync.reload);
+  gulp.watch("app/scss/**/*.scss", ["sass"]);
+  gulp.watch("app/es/**/*.js", ["babel"]);
+  gulp.watch("app/*.html", devBrowserSync.reload);
+  gulp.watch("app/js/**/*.js", devBrowserSync.reload);
   done();
 }
-gulp.task('watch', ['browserSync', 'sass'], watchTask);
+gulp.task("watch", ["browserSync", "sass", "babel"], watchTask);
+
+// Test web server
+
+function testingBrowserSyncTask( done ) {
+  testingBrowserSync.init({
+    server: {
+      baseDir: "test/fixtures"
+    },
+    port: 9000,
+    browser: "chromium-browser"
+  });
+  done();
+}
+gulp.task("testingBrowserSync", testingBrowserSyncTask);
+
+gulp.task("test:server", ["sass", "babel"], testingBrowserSyncTask );
+
+function seleniumStandaloneTask(done) {
+  selenium.install( {
+    logger: console.log
+  }, function() {
+    selenium.start( function( err, child ) {
+      if (err) {
+        return done(err);
+      }
+      else {
+        seleniumServer = child;
+        return done();
+      }
+    } );
+  });
+}
+gulp.task( "test:selenium", seleniumStandaloneTask );
+
+function e2eTask() {
+  return gulp
+    .src("wdio.conf.js")
+    .pipe(webdriver())
+    .on("error", function() {
+      seleniumServer.kill();
+      process.exit(1);
+    });
+}
+
+gulp.task("test:e2e", ["test:server", "test:selenium"], e2eTask );
+gulp.task("test", ["test:e2e"], function() {
+  testingBrowserSync.cleanup();
+  seleniumServer.kill();
+} );
 
 // Distribution
 
 function userefTask(){
   return gulp
-    .src('app/*.html')
+    .src("app/*.html")
     .pipe(useref())
-    .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulpIf("*.js", uglify()))
+    .pipe(gulp.dest("dist"));
 }
-gulp.task('useref', userefTask);
+gulp.task("useref", userefTask);
 
 function imagesTask() {
   return gulp
-    .src('app/images/**/*+(png|jpg|jpeg|gif|svg)')
-    .pipe(gulp.dest('dist/images'));
+    .src("app/images/**/*+(png|jpg|jpeg|gif|svg)")
+    .pipe(gulp.dest("dist/images"));
 }
-gulp.task('images', imagesTask);
+gulp.task("images", imagesTask);
 
 function cleanDistTask() {
-  return del.sync('dist');
+  return del.sync("dist");
 }
-gulp.task('clean:dist', cleanDistTask);
+gulp.task("clean:dist", cleanDistTask);
 
 function buildTask(callback) {
   runSequence(
-    'clean:dist',
-    ['sass','babel'],
-    ['useref', 'images'],
+    "clean:dist",
+    ["sass","babel"],
+    ["useref", "images"],
     callback
   );
 }
-gulp.task('build', buildTask);
+gulp.task("build", buildTask);
 
-gulp.task('default', buildTask);
+gulp.task("default", buildTask);
