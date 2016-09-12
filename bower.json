@@ -1,0 +1,25 @@
+{
+  "name": "rainfall-demonstrator",
+  "description": "Demonstrate the use of the new Environment Agency rainfall data API",
+  "main": "index.js",
+  "authors": [
+    "Ian Dickinson",
+    "Epimorphics Ltd"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/epimorphics/rainfall-api-demonstrator",
+  "moduleType": [
+    "es6"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~3.1.0"
+  }
+}

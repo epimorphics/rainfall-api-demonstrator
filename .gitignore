@@ -2,3 +2,5 @@ app/js
 app/css
 dist
 node_modules/
+app/vendor
+bower_components/

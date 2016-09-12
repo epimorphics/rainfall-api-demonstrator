@@ -12,6 +12,7 @@ var gulp = require("gulp");
 var babel = require("gulp-babel");
 var selenium = require("selenium-standalone");
 var webdriver = require("gulp-webdriver");
+var bower = require("gulp-bower");
 
 var devBrowserSync = browserSync.create();
 var testingBrowserSync = browserSync.create();
@@ -39,8 +40,13 @@ function babelTask() {
     }))
     .pipe(gulp.dest("app/js"));
 }
-
 gulp.task("babel", babelTask);
+
+function bowerTask() {
+  return bower()
+    .pipe(gulp.dest('app/vendor/'));
+}
+gulp.task("bower", bowerTask);
 
 // Development web server
 
@@ -139,6 +145,7 @@ gulp.task("clean:dist", cleanDistTask);
 function buildTask(callback) {
   runSequence(
     "clean:dist",
+    "bower",
     ["sass","babel"],
     ["useref", "images"],
     callback

@@ -13,6 +13,7 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-bower": "0.0.13",
     "gulp-if": "^2.0.1",
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^2.0.0",
