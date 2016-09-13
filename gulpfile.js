@@ -13,6 +13,7 @@ var babel = require("gulp-babel");
 var selenium = require("selenium-standalone");
 var webdriver = require("gulp-webdriver");
 var bower = require("gulp-bower");
+var nunjucksRender = require("gulp-nunjucks-render");
 
 var devBrowserSync = browserSync.create();
 var testingBrowserSync = browserSync.create();
@@ -44,9 +45,21 @@ gulp.task("babel", babelTask);
 
 function bowerTask() {
   return bower()
-    .pipe(gulp.dest('app/vendor/'));
+    .pipe(gulp.dest("app/vendor/"));
 }
 gulp.task("bower", bowerTask);
+
+function nunjucksTask() {
+  return gulp
+    .src("app/pages/**/*.+(html)")
+    .pipe(
+      nunjucksRender({
+        path: ["app/templates"]
+      })
+    )
+  .pipe(gulp.dest("app"));
+}
+gulp.task("nunjucks", nunjucksTask);
 
 // Development web server
 
@@ -64,6 +77,7 @@ gulp.task("browserSync", browserSyncTask);
 function watchTask( done ) {
   gulp.watch("app/scss/**/*.scss", ["sass"]);
   gulp.watch("app/es/**/*.js", ["babel"]);
+  gulp.watch("app/templates/**/*", ["nunjucks"]);
   gulp.watch("app/*.html", devBrowserSync.reload);
   gulp.watch("app/js/**/*.js", devBrowserSync.reload);
   done();
@@ -146,6 +160,7 @@ function buildTask(callback) {
   runSequence(
     "clean:dist",
     "bower",
+    "nunjucks",
     ["sass","babel"],
     ["useref", "images"],
     callback
