@@ -1,0 +1,23 @@
+/** Override some of the default Bootstrap settings */
+
+// font sizes
+
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px
+
+$font-size-h1:            floor(($font-size-base * 2.2)) !default;
+$font-size-h2:            floor(($font-size-base * 1.9)) !default;
+$font-size-h3:            ceil(($font-size-base * 1.5)) !default;
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default;
+$font-size-h5:            $font-size-base !default;
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default;
+
+// where glyphicons lives
+
+$icon-font-path: "../fonts/" !default;
+
+// by default no border radius
+
+$border-radius-base:        0 !default;
+$border-radius-large:       0 !default;

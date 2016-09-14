@@ -1,0 +1,28 @@
+footer {
+  background-color: $grey-2;
+  color: $semi-black;
+  padding: 20px 10px 10px;
+
+  border-top: 15px solid $ea-dark-green;
+
+  a, a:hover {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  .c-footer-epimorphics {
+    color: lighten( $semi-black, 20% );
+
+    a, a:hover {
+      color: inherit;
+    }
+  }
+
+  .c-linked-data-logo {
+    max-height: 42px;
+  }
+}
+
+.supplementary-footer p {
+  padding-top: 40px;
+}

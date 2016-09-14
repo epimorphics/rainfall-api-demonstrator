@@ -15,7 +15,10 @@
 
 </head>
 <body>
-  {% include "partials/top-bar.html" %}
-  {% block content %} {% endblock %}
+  {% include "partials/page-top-bar.html" %}
+  <main>
+    {% block content %} {% endblock %}
+  </main>
+  {% include "partials/page-footer.html" %}
 </body>
 </html>

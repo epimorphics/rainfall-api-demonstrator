@@ -1,0 +1,26 @@
+.o-service-phase {
+  width: 100%;
+  border-bottom: 1px solid $border-colour;
+  padding: 8px 0 8px 0;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.c-service-phase-badge {
+  text-transform: uppercase;
+  padding: 4px;
+  color: white;
+  font-size: 90%;
+  font-weight: bold;
+  margin-right: 1em;
+}
+
+.c-service-phase-alpha-badge {
+  @extend .c-service-phase-badge;
+  background-color: $alpha-colour;
+}
+
+.c-service-phase-beta-badge {
+  @extend .c-service-phase-badge;
+  background-color: $beta-colour;
+}

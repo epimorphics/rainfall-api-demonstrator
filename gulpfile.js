@@ -68,7 +68,7 @@ function browserSyncTask( done ) {
     server: {
       baseDir: "app"
     },
-    browser: ["google chrome"]
+    browser: ["chromium-browser"]
   });
   done();
 }
@@ -78,11 +78,13 @@ function watchTask( done ) {
   gulp.watch("app/scss/**/*.scss", ["sass"]);
   gulp.watch("app/es/**/*.js", ["babel"]);
   gulp.watch("app/templates/**/*", ["nunjucks"]);
+  gulp.watch("app/pages/**/*", ["nunjucks"]);
+  gulp.watch("app/css/*.css", devBrowserSync.reload);
   gulp.watch("app/*.html", devBrowserSync.reload);
   gulp.watch("app/js/**/*.js", devBrowserSync.reload);
   done();
 }
-gulp.task("watch", ["browserSync", "sass", "babel"], watchTask);
+gulp.task("watch", ["browserSync", "sass", "babel", "nunjucks"], watchTask);
 
 // Test web server
 

@@ -1,0 +1,117 @@
+// Common CSS utility classes
+
+// borders
+.u-border-0 {
+  border: 0;
+}
+
+.u-light-border {
+  border: 1px solid #cccccc;
+}
+
+// margins
+
+.u-margin-0-above {
+  margin-top: 0;
+}
+
+.u-margin-0-below {
+  margin-bottom: 0;
+}
+
+.u-margin-0-vertical {
+  @extend .u-margin-0-above;
+  @extend .u-margin-0-below;
+}
+
+.u-margin-1-above {
+  margin-top: 1rem;
+}
+
+.u-margin-1-below {
+  margin-bottom: 1rem;
+}
+
+.u-margin-1-vertical {
+  @extend .u-margin-1-above;
+  @extend .u-margin-1-below;
+}
+
+.u-margin05-above {
+  margin-top: 0.5rem;
+}
+
+.u-margin05-below {
+  margin-bottom: 0.5rem;
+}
+
+.u-margin-05 {
+  @extend .u-margin05-above;
+  @extend .u-margin05-below;
+}
+
+.u-margin1-left {
+  margin-left: 1rem;
+}
+
+.u-margin1-right {
+  margin-right: 1rem;
+}
+
+.u-margin-0-horiz {
+  margin-right: 0;
+  margin-left: 0
+}
+
+// padding
+
+.u-padding-medium {
+  padding: 5px;
+}
+
+.u-padding-0-horiz {
+  padding-left: 0;
+  padding-right: 0
+}
+
+// sizing
+
+.u-full-width {
+  width: 100%
+}
+
+// corners
+.u-border-radius-medium {
+  border-radius: 4px;
+}
+
+// backgrounds
+
+.u-background-light-grey {
+  background-color: #eee;
+}
+
+// fonts
+
+.u-font-italic {
+  font-style: italic;
+}
+
+// links
+
+.u-prominent-link {
+  font-size: 110%;
+  font-weight: bold;
+}
+
+// visibility
+
+.u-hidden {
+  @extend .hidden;
+}
+
+@media print {
+  .u-print-hidden {
+    display: none;
+  }
+}
