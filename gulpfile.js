@@ -1,53 +1,67 @@
 "use strict";
 
-var gulp = require("gulp");
-var sass = require("gulp-sass");
+var babel = require("babelify");
+var babelCompiler = require("babel-register");
 var browserSync = require("browser-sync");
-var useref = require("gulp-useref");
-var uglify = require("gulp-uglify");
-var gulpIf = require("gulp-if");
 var del = require("del");
-var runSequence = require("run-sequence");
 var gulp = require("gulp");
-var babel = require("gulp-babel");
+var gulpMocha = require("gulp-mocha");
+var nunjucksRender = require("gulp-nunjucks-render");
+var runSequence = require("run-sequence");
+var sass = require("gulp-sass");
 var selenium = require("selenium-standalone");
 var webdriver = require("gulp-webdriver");
-var bower = require("gulp-bower");
-var nunjucksRender = require("gulp-nunjucks-render");
+
+var sourcemaps = require("gulp-sourcemaps");
+var source = require("vinyl-source-stream");
+var buffer = require("vinyl-buffer");
+var browserify = require("browserify");
+
+// Instances
 
 var devBrowserSync = browserSync.create();
 var testingBrowserSync = browserSync.create();
-
 var seleniumServer;
 
-// Source code translation
+// Source code generation
+/////////////////////////
+
+function imagesTask() {
+  return gulp
+    .src("app/images/**/*+(png|jpg|jpeg|gif|svg)")
+    .pipe(gulp.dest("build/images"));
+}
+gulp.task("compile:images", imagesTask);
 
 function sassTask() {
   return gulp
     .src("app/scss/**/*.scss")
     .pipe(sass())
-    .pipe(gulp.dest("app/css"))
-    .pipe(browserSync.reload({
-      stream: true
-    }));
+    .pipe(gulp.dest("build/css"));
 }
-gulp.task("sass", sassTask);
+gulp.task("compile:sass", sassTask);
 
-function babelTask() {
-  gulp
-    .src("app/es/**/*.js")
-    .pipe(babel({
-      presets: ["es2015"]
-    }))
-    .pipe(gulp.dest("app/js"));
-}
-gulp.task("babel", babelTask);
+function compileJsTask() {
+  var bundler =
+    browserify(
+      "./app/es/app.js",
+      {debug: true}
+    ).transform(babel);
 
-function bowerTask() {
-  return bower()
-    .pipe(gulp.dest("app/vendor/"));
+  function rebundle() {
+    return bundler
+      .bundle()
+      .on("error", function(err) { console.error(err); this.emit("end"); })
+      .pipe(source("build.js"))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write("./"))
+      .pipe(gulp.dest("./build/js"));
+  }
+
+  return rebundle();
 }
-gulp.task("bower", bowerTask);
+gulp.task("compile:js", compileJsTask);
 
 function nunjucksTask() {
   return gulp
@@ -57,16 +71,19 @@ function nunjucksTask() {
         path: ["app/templates"]
       })
     )
-  .pipe(gulp.dest("app"));
+  .pipe(gulp.dest("build"));
 }
-gulp.task("nunjucks", nunjucksTask);
+gulp.task("compile:html", nunjucksTask);
+
+gulp.task("compile", ["compile:html", "compile:js", "compile:sass", "compile:images"]);
 
 // Development web server
+/////////////////////////
 
 function browserSyncTask( done ) {
   devBrowserSync.init({
     server: {
-      baseDir: "app"
+      baseDir: "build"
     },
     browser: ["chromium-browser"]
   });
@@ -75,18 +92,30 @@ function browserSyncTask( done ) {
 gulp.task("browserSync", browserSyncTask);
 
 function watchTask( done ) {
-  gulp.watch("app/scss/**/*.scss", ["sass"]);
-  gulp.watch("app/es/**/*.js", ["babel"]);
-  gulp.watch("app/templates/**/*", ["nunjucks"]);
-  gulp.watch("app/pages/**/*", ["nunjucks"]);
-  gulp.watch("app/css/*.css", devBrowserSync.reload);
-  gulp.watch("app/*.html", devBrowserSync.reload);
-  gulp.watch("app/js/**/*.js", devBrowserSync.reload);
+  gulp.watch("app/scss/**/*.scss", ["compile:sass"]);
+  gulp.watch("app/es/**/*.js", ["compile:js"]);
+  gulp.watch("app/templates/**/*", ["compile:html"]);
+  gulp.watch("app/pages/**/*", ["compile:html"]);
+  gulp.watch("app/images/**/*", ["compile:images"]);
+  gulp.watch("build/**/*", devBrowserSync.reload);
   done();
 }
-gulp.task("watch", ["browserSync", "sass", "babel", "nunjucks"], watchTask);
+gulp.task("watch", ["browserSync", "compile"], watchTask);
 
-// Test web server
+// Unit testing
+///////////////
+
+function testUnitTask() {
+  return gulp
+    .src(["test/unit/**/*.js"])
+    .pipe(gulpMocha({
+      compilers:babelCompiler
+    }));
+}
+gulp.task("test:unit", testUnitTask);
+
+// End-to-end testing in web server
+///////////////////////////////////
 
 function testingBrowserSyncTask( done ) {
   testingBrowserSync.init({
@@ -100,7 +129,7 @@ function testingBrowserSyncTask( done ) {
 }
 gulp.task("testingBrowserSync", testingBrowserSyncTask);
 
-gulp.task("test:server", ["sass", "babel"], testingBrowserSyncTask );
+gulp.task("test:server", ["compile"], testingBrowserSyncTask );
 
 function seleniumStandaloneTask(done) {
   selenium.install( {
@@ -130,41 +159,23 @@ function e2eTask() {
 }
 
 gulp.task("test:e2e", ["test:server", "test:selenium"], e2eTask );
-gulp.task("test", ["test:e2e"], function() {
+gulp.task("test", ["test:unit", "test:e2e"], function() {
   testingBrowserSync.cleanup();
   seleniumServer.kill();
 } );
 
 // Distribution
+///////////////
 
-function userefTask(){
-  return gulp
-    .src("app/*.html")
-    .pipe(useref())
-    .pipe(gulpIf("*.js", uglify()))
-    .pipe(gulp.dest("dist"));
+function cleanBuildTask() {
+  return del.sync("build");
 }
-gulp.task("useref", userefTask);
-
-function imagesTask() {
-  return gulp
-    .src("app/images/**/*+(png|jpg|jpeg|gif|svg)")
-    .pipe(gulp.dest("dist/images"));
-}
-gulp.task("images", imagesTask);
-
-function cleanDistTask() {
-  return del.sync("dist");
-}
-gulp.task("clean:dist", cleanDistTask);
+gulp.task("build:clean", cleanBuildTask);
 
 function buildTask(callback) {
   runSequence(
-    "clean:dist",
-    "bower",
-    "nunjucks",
-    ["sass","babel"],
-    ["useref", "images"],
+    "build:clean",
+    "compile",
     callback
   );
 }
