@@ -2,8 +2,8 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 import {_} from "lodash";
 
-import {allStations} from "../../../app/es/services/rainfaill-api.js";
-import {Station} from "../../../app/es/models/station.js";
+import {allStations} from "../../../app/es/services/rainfall-api.es";
+import {Station} from "../../../app/es/models/station.es";
 
 describe("rainfall-api", () => {
   it( "returns a promise which resolves to a non-empty array of values", () => {

@@ -2,7 +2,7 @@
 import request from "superagent";
 import {_} from "lodash";
 
-import {Station} from "../models/station.js";
+import {Station} from "../models/station.es";
 
 /** The root of the API URLs */
 const API_ROOT = "http://ea-floods-testing.epimorphics.net";
