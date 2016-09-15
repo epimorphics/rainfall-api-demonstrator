@@ -6,3 +6,4 @@ app/vendor
 bower_components/
 app/*.html
 build
+temp
