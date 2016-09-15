@@ -10,6 +10,14 @@ export class Station {
     return this.json["@id"];
   }
 
+  label() {
+    return this.json.label || this.default_label();
+  }
+
+  default_label() {
+    return "";
+  }
+
   location( srs ) {
     switch(srs) {
     case "osgb": return this.locationOsgb();

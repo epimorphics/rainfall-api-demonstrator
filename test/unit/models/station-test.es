@@ -53,4 +53,14 @@ describe("Station", () => {
     expect(longLat.y).to.be.closeTo( 50.87805, 0.0001 );
     expect(longLat.srs).to.equal( "wgs84" );
   } );
+
+  it( "should return the label if defined", () => {
+    const station = new Station( STATION_FIXTURE );
+    expect(station.label()).to.equal( "Crowhurst" );
+  } );
+
+  it( "should return an empty string if the label is not defined", () => {
+    const station = new Station( {} );
+    expect( station.label() ).to.equal( "" );
+  } );
 });
