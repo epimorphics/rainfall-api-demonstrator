@@ -35,8 +35,22 @@ describe("Station", () => {
     expect(station).to.not.be.null;
   } );
 
-  it( "can report the URI of the station", () => {
+  it( "can return the URI of the station", () => {
     let station = new Station( STATION_FIXTURE );
     expect(station.uri()).to.equal("http://environment.data.gov.uk/flood-monitoring/id/stations/E7050");
+  } );
+
+  it( "can return the location of the station given a spatial reference system", () => {
+    const station = new Station( STATION_FIXTURE );
+
+    const eastingNorthing = station.location("osgb");
+    expect(eastingNorthing.x).to.equal( 575978 );
+    expect(eastingNorthing.y).to.equal( 111706 );
+    expect(eastingNorthing.srs).to.equal( "osgb" );
+
+    const longLat = station.location("wgs84");
+    expect(longLat.x).to.be.closeTo( 0.500069, 0.001 );
+    expect(longLat.y).to.be.closeTo( 50.87805, 0.0001 );
+    expect(longLat.srs).to.equal( "wgs84" );
   } );
 });
