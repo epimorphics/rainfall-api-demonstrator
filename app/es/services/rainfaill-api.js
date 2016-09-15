@@ -1,6 +1,6 @@
 /* Simple service object for retrieving contents from Rainfall HTTP API */
 
-import {$} from 'jquery';
+import {$} from "jquery";
 
 /** The root of the API URLs */
 const API_ROOT = "http://ea-floods-testing.epimorphics.net";
@@ -11,9 +11,7 @@ const API_ROOT = "http://ea-floods-testing.epimorphics.net";
  * of the array will be a Station value object
  */
 export function allStations() {
-  let promise = new Promise();
-  promise.resolve([]);
-  return promise;
+  return Promise.resolve([]);
   // return getJSON("/flood-monitoring/id/stations", {parameter: "rainfall"});
 }
 
