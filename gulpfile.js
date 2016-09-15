@@ -44,7 +44,7 @@ gulp.task("compile:sass", sassTask);
 function compileJsTask() {
   var bundler =
     browserify(
-      "./app/es/app.js",
+      "./app/es/app.es",
       {debug: true}
     ).transform(babel);
 
