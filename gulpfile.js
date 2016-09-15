@@ -107,9 +107,9 @@ gulp.task("watch", ["browserSync", "compile"], watchTask);
 
 function testUnitTask() {
   return gulp
-    .src(["test/unit/**/*.js"])
+    .src(["test/unit/**/*.+(js|es)"])
     .pipe(gulpMocha({
-      compilers:babelCompiler
+      // compilers:babelCompiler
     }));
 }
 gulp.task("test:unit", testUnitTask);
