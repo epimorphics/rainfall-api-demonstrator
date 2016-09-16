@@ -27,11 +27,19 @@ export function stationNames() {
     } );
 }
 
-/** @return A promise of the names of all of the river names */
+/** @return A promise of the names of all of the unique river names */
 export function riverNames() {
   return stationsCollection()
     .then( (stations) => {
       return compactify( stations, "riverName" );
+    } );
+}
+
+/** @return A promise of the names of all of the unique catchment names */
+export function catchmentNames() {
+  return stationsCollection()
+    .then( (stations) => {
+      return compactify( stations, "catchmentName" );
     } );
 }
 
@@ -48,7 +56,7 @@ function retrieveStations() {
 function compactify( arr, fieldFn ) {
   return _.uniq(
     _.reject(
-      _.map( arr, (value) => {return value.call( null, fieldFn );} ),
+      _.map( arr, value => {return value[fieldFn].call( value );} ),
       _.isEmpty
     )
   );

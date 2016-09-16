@@ -2,7 +2,8 @@ import {expect} from "chai";
 import {describe, it} from "mocha";
 
 import {stationsCollection, hasCachedStations,
-        stationNames, riverNames} from "../../../app/es/models/stations.es";
+        stationNames, riverNames,
+        catchmentNames} from "../../../app/es/models/stations.es";
 import {Station} from "../../../app/es/models/station.es";
 
 describe( "stations model", () => {
@@ -20,6 +21,7 @@ describe( "stations model", () => {
     return stationNames().then( (names) => {
       expect(names.length).to.be.above( 0 );
       expect(names).to.include.members(["Crowhurst", "Summergrove"]);
+      expect(names).to.not.contain([""]);
     } );
   } );
 
@@ -27,6 +29,15 @@ describe( "stations model", () => {
     return riverNames().then( (names) => {
       expect(names.length).to.be.above( 0 );
       expect(names).to.include.members(["Cuckmere", "Day Brook"]);
+      expect(names).to.not.contain([""]);
+    } );
+  } );
+
+  it( "should return a promise of all of the names of catchments", () => {
+    return catchmentNames().then( (names) => {
+      expect(names.length).to.be.above( 0 );
+      expect(names).to.include.members(["Cuckmere and Pevensey Levels"]);
+      expect(names).to.not.contain([""]);
     } );
   } );
 } );
