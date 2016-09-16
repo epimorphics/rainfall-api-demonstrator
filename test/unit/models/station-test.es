@@ -63,4 +63,15 @@ describe("Station", () => {
     const station = new Station( {} );
     expect( station.label() ).to.equal( "" );
   } );
+
+  it( "should return the river name if defined", () => {
+    const station = new Station( STATION_FIXTURE );
+    expect(station.riverName()).to.equal( "Cuckmere" );
+  } );
+
+  it( "should return an empty string if the river name is not defined", () => {
+    const station = new Station( {} );
+    expect( station.riverName() ).to.equal( "" );
+  } );
+
 });

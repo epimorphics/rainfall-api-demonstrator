@@ -11,11 +11,11 @@ export class Station {
   }
 
   label() {
-    return this.json.label || this.default_label();
+    return this.valueOrDefault( "label" );
   }
 
-  default_label() {
-    return "";
+  riverName() {
+    return this.valueOrDefault( "riverName" );
   }
 
   location( srs ) {
@@ -32,5 +32,13 @@ export class Station {
 
   locationWgs84() {
     return new Point( this.json.long, this.json.lat, "wgs84" );
+  }
+
+  defaultLabel() {
+    return "";
+  }
+
+  valueOrDefault( field ) {
+    return this.json[field] || this.defaultLabel();
   }
 }
