@@ -1,7 +1,8 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
 
-import {stationsCollection, hasCachedStations, stationNames} from "../../../app/es/models/stations.es";
+import {stationsCollection, hasCachedStations,
+        stationNames, riverNames} from "../../../app/es/models/stations.es";
 import {Station} from "../../../app/es/models/station.es";
 
 describe( "stations model", () => {
@@ -19,6 +20,13 @@ describe( "stations model", () => {
     return stationNames().then( (names) => {
       expect(names.length).to.be.above( 0 );
       expect(names).to.include.members(["Crowhurst", "Summergrove"]);
+    } );
+  } );
+
+  it( "should return a promise of all of the names of rivers", () => {
+    return riverNames().then( (names) => {
+      expect(names.length).to.be.above( 0 );
+      expect(names).to.include.members(["Cuckmere", "Day Brook"]);
     } );
   } );
 } );

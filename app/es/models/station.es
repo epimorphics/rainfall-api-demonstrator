@@ -18,6 +18,10 @@ export class Station {
     return this.valueOrDefault( "riverName" );
   }
 
+  catchmentName() {
+    return this.valueOrDefault( "catchmentName" );
+  }
+
   location( srs ) {
     switch(srs) {
     case "osgb": return this.locationOsgb();

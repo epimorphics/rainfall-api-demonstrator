@@ -74,4 +74,13 @@ describe("Station", () => {
     expect( station.riverName() ).to.equal( "" );
   } );
 
+  it( "should return the catchment name if defined", () => {
+    const station = new Station( STATION_FIXTURE );
+    expect(station.catchmentName()).to.equal( "Cuckmere and Pevensey Levels" );
+  } );
+
+  it( "should return an empty string if the catchment name is not defined", () => {
+    const station = new Station( {} );
+    expect( station.catchmentName() ).to.equal( "" );
+  } );
 });
