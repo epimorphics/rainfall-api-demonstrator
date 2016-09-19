@@ -1,3 +1,9 @@
 import $ from "jquery";
 import {allStations} from "./services/rainfall-api.es";
-const foo = 42;
+import {UserPreferences} from "./services/user-preferences.es";
+
+console.log("starting app.es");
+
+$(() => {
+  let userPreferences = UserPreferences.currentPreference();
+});
