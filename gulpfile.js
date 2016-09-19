@@ -117,10 +117,22 @@ gulp.task("test:unit", testUnitTask);
 // End-to-end testing in web server
 ///////////////////////////////////
 
+function nunjucksFixturesTask() {
+  return gulp
+    .src("test/fixtures/pages/**/*.+(html)")
+    .pipe(
+      nunjucksRender({
+        path: ["app/templates"]
+      })
+    )
+  .pipe(gulp.dest("build"));
+}
+gulp.task("compile:fixtures", nunjucksFixturesTask);
+
 function testingBrowserSyncTask( done ) {
   testingBrowserSync.init({
     server: {
-      baseDir: "test/fixtures"
+      baseDir: "build"
     },
     port: 9000,
     browser: "chromium-browser"
@@ -129,7 +141,9 @@ function testingBrowserSyncTask( done ) {
 }
 gulp.task("testingBrowserSync", testingBrowserSyncTask);
 
-gulp.task("test:server", ["compile"], testingBrowserSyncTask );
+gulp.task("test:server",
+          ["compile:js", "compile:sass", "compile:images", "compile:fixtures"],
+          testingBrowserSyncTask );
 
 function seleniumStandaloneTask(done) {
   selenium.install( {
@@ -148,7 +162,7 @@ function seleniumStandaloneTask(done) {
 }
 gulp.task( "test:selenium", seleniumStandaloneTask );
 
-function e2eTask() {
+function functionalTestTask() {
   return gulp
     .src("wdio.conf.js")
     .pipe(webdriver())
@@ -158,11 +172,13 @@ function e2eTask() {
     });
 }
 
-gulp.task("test:e2e", ["test:server", "test:selenium"], e2eTask );
-gulp.task("test", ["test:unit", "test:e2e"], function() {
+gulp.task("test:functional", ["test:server", "test:selenium"], functionalTestTask );
+gulp.task("test:functional-and-cleanup", ["test:functional"], function() {
   testingBrowserSync.cleanup();
   seleniumServer.kill();
 } );
+
+gulp.task("test", ["test:unit", "test:functional-and-cleanup"] );
 
 // Distribution
 ///////////////
