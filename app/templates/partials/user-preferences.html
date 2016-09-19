@@ -17,17 +17,28 @@
       <input type="text" class="form-control" id="catchmentName" name="catchmentName" />
     </div>
   </div>
-  <fieldset class="form-inline">
-    <legend>Location</legend>
-    <div class="form-group row">
-      <label for="long" class="">Longitude</label>
-      <input type="number" class="form-control" id="long" name="long" />
+  <div class="row">
 
-      <label for="lat" class="">Latitude</label>
-      <input type="number" class="form-control" id="lat" name="lat" />
+    <div class="">
+      <fieldset>
+        <legend class="col-sm-2">Location</legend>
+        <div  class="form-inline col-sm-10">
+          <div class="form-group">
+            <label for="long" class="">Longitude</label>
+            <input type="number" class="form-control" id="long" name="long" />
+          </div>
 
-      <label for="dist" class="">Radius (km)</label>
-      <input type="number" class="form-control" id="dist" name="dist" />
+          <div class="form-group">
+            <label for="lat" class="">Latitude</label>
+            <input type="number" class="form-control" id="lat" name="lat" />
+          </div>
+
+          <div class="form-group">
+            <label for="dist" class="">Radius (km)</label>
+            <input type="number" class="form-control" id="dist" name="dist" />
+          </div>
+        </div>
+      </fieldset>
     </div>
-  </fieldset>
+  </div>
 </form>
