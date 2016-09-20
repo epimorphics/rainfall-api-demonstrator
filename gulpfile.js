@@ -100,7 +100,7 @@ gulp.task("browserSync", browserSyncTask);
 
 function watchTask( done ) {
   gulp.watch("app/scss/**/*.scss", ["compile:sass"]);
-  gulp.watch("app/es/**/*.js", ["compile:js"]);
+  gulp.watch("app/es/**/*.es", ["compile:js"]);
   gulp.watch("app/templates/**/*", ["compile:html"]);
   gulp.watch("app/pages/**/*", ["compile:html"]);
   gulp.watch("app/images/**/*", ["compile:images"]);
