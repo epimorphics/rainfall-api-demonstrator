@@ -1,6 +1,16 @@
+@charset "UTF-8";
+
+// libraries
 @import
+  // Bootstrap
   "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap",
+  // Font-awesome
   "../../node_modules/font-awesome/scss/font-awesome",
+  // typeahead
+  "../../node_modules/typeahead/style";
+
+// application code
+@import
   "ea-brand",
   "bootstrap-adjust",
   "shared_utils",
