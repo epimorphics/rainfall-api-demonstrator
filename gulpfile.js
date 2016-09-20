@@ -1,11 +1,11 @@
 "use strict";
 
 var babel = require("babelify");
-var babelCompiler = require("babel-register");
 var browserSync = require("browser-sync");
 var del = require("del");
 var gulp = require("gulp");
 var gulpMocha = require("gulp-mocha");
+var gutil = require("gulp-util");
 var nunjucksRender = require("gulp-nunjucks-render");
 var runSequence = require("run-sequence");
 var sass = require("gulp-sass");
@@ -58,7 +58,7 @@ function compileJsTask() {
   function rebundle() {
     return bundler
       .bundle()
-      .on("error", function(err) { console.error(err); this.emit("end"); })
+      .on("error", function(err) { gutil.log(err); this.emit("end"); })
       .pipe(source("build.js"))
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
@@ -116,7 +116,6 @@ function testUnitTask() {
   return gulp
     .src(["test/unit/**/*.+(js|es)"])
     .pipe(gulpMocha({
-      // compilers:babelCompiler
     }));
 }
 gulp.task("test:unit", testUnitTask);
@@ -154,7 +153,7 @@ gulp.task("test:server",
 
 function seleniumStandaloneTask(done) {
   selenium.install( {
-    logger: console.log
+    logger: gutil.log
   }, function() {
     selenium.start( function( err, child ) {
       if (err) {

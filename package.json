@@ -29,6 +29,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
     "gulp-webdriver": "^2.0.2",
     "mocha": "^3.0.2",
     "phantomjs": "^2.1.7",
