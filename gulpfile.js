@@ -33,6 +33,13 @@ function imagesTask() {
 }
 gulp.task("compile:images", imagesTask);
 
+function fontsTask() {
+  return gulp
+    .src("node_modules/font-awesome/fonts/**/*")
+    .pipe(gulp.dest("build/fonts"));
+}
+gulp.task("compile:fonts", fontsTask);
+
 function sassTask() {
   return gulp
     .src("app/scss/**/*.scss")
@@ -75,7 +82,7 @@ function nunjucksTask() {
 }
 gulp.task("compile:html", nunjucksTask);
 
-gulp.task("compile", ["compile:html", "compile:js", "compile:sass", "compile:images"]);
+gulp.task("compile", ["compile:html", "compile:js", "compile:sass", "compile:images", "compile:fonts"]);
 
 // Development web server
 /////////////////////////
@@ -142,7 +149,7 @@ function testingBrowserSyncTask( done ) {
 gulp.task("testingBrowserSync", testingBrowserSyncTask);
 
 gulp.task("test:server",
-          ["compile:js", "compile:sass", "compile:images", "compile:fixtures"],
+          ["compile:js", "compile:sass", "compile:images", "compile:fixtures", "compile:fonts"],
           testingBrowserSyncTask );
 
 function seleniumStandaloneTask(done) {
