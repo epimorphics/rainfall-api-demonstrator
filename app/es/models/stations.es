@@ -43,6 +43,17 @@ export function catchmentNames() {
     } );
 }
 
+/**
+ * @param searchStr A non-empty search string
+ * @return A promise of station names that match a given input string
+ */
+export function searchStationNames( searchStr ) {
+  const pattern = new RegExp( searchStr, "ig" );
+  return stationNames().then( names => {
+    return _.filter( names, name => {return pattern.test(name);} );
+  } );
+}
+
 /** @return a promise of stations retrieved via tha API */
 function retrieveStations() {
   return allStations()
