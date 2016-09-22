@@ -1,6 +1,6 @@
 const $ = require("jquery");
 const _ = require("lodash");
-import {searchStationNames} from "../models/stations.es";
+import {matchStations} from "../models/stations.es";
 
 /** Minimum number of characters in a search string */
 const MIN_SEARCH_LENGTH = 2;
@@ -45,7 +45,7 @@ export class SearchView {
    */
   searchBy( searchStr ) {
     if (searchStr !== "" && searchStr.length >= MIN_SEARCH_LENGTH) {
-      searchStationNames( searchStr ).then( results => {
+      matchStations( {label: searchStr} ).then( results => {
         this.clearCurrentSearchResults();
         this.summariseSearchResults( results );
         this.showCurrentSearchResults( results );
@@ -101,7 +101,8 @@ export class SearchView {
 
   /** @return A formatted search result */
   presentResult( result ) {
-    return `<li class='o-search-results--result'>${result}</li>\n`;
+    return `<li class='o-search-results--result' data-notation='${result.notation()}'>` +
+           `${result.label()}</li>\n`;
   }
 
   /**
