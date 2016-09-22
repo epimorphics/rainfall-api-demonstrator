@@ -2,6 +2,7 @@
 /* global process */
 
 var babel = require("babelify");
+require("babel-register");
 var browserSync = require("browser-sync");
 var del = require("del");
 var gulp = require("gulp");
