@@ -22,15 +22,20 @@ export class SearchView {
    * Bind UI affordances to actions in this view
    */
   initEvents() {
-    this.ui().search.on( "keyup", _.bind( this.onKeyUp, this ) );
+    const onSearchBound = _.bind( this.onSearch, this );
+    this.ui().searchField.on( "change", onSearchBound );
+    this.ui().searchField.on( "keyup", onSearchBound );
+    this.ui().searchActionButton.on( "click", e => {
+      e.preventDefault();
+      onSearchBound();
+    } );
   }
 
   /**
    * User has typed into search box
    */
-  onKeyUp( event ) {
-    const searchStr = $(event.currentTarget).val();
-    this.clearCurrentSearchResults();
+  onSearch() {
+    const searchStr = this.ui().searchField.val();
     this.searchBy( searchStr );
   }
 
@@ -41,6 +46,7 @@ export class SearchView {
   searchBy( searchStr ) {
     if (searchStr !== "" && searchStr.length >= MIN_SEARCH_LENGTH) {
       searchStationNames( searchStr ).then( results => {
+        this.clearCurrentSearchResults();
         this.summariseSearchResults( results );
         this.showCurrentSearchResults( results );
       });
@@ -106,11 +112,12 @@ export class SearchView {
   ui() {
     if (!this._ui) {
       this._ui = {
-        search: $("#searchField"),
+        searchField: $("#searchField"),
         searchResults: $(".o-search-results"),
         searchResultsHeading: $(".o-search-results--heading"),
         searchResultsList: $(".o-search-results--list"),
-        searchResultsSummary: $(".o-search-results--summary")
+        searchResultsSummary: $(".o-search-results--summary"),
+        searchActionButton: $(".js-action-search")
       };
     }
 

@@ -2,15 +2,18 @@ import {_} from "lodash";
 import {allStations} from "../services/rainfall-api.es";
 
 /** Cached array of rainfall stations */
-let stations;
+let stations, stationsPromise;
 
 /** @return A promise of an array of all of the rainfall stations */
 export function stationsCollection() {
-  if (!stations) {
-    return retrieveStations();
+  if (stations) {
+    return Promise.resolve( stations );
+  }
+  else if (stationsPromise) {
+    return stationsPromise;
   }
   else {
-    return Promise.resolve( stations );
+    return retrieveStations();
   }
 }
 
@@ -56,11 +59,13 @@ export function searchStationNames( searchStr ) {
 
 /** @return a promise of stations retrieved via tha API */
 function retrieveStations() {
-  return allStations()
+  stationsPromise = allStations()
     .then( (stns) => {
       stations = stns;
+      stationsPromise = null;
       return stns;
     } );
+  return stationsPromise;
 }
 
 /** @return A compacted, uniqified array of the values of `fieldFn` */
