@@ -14,7 +14,8 @@ const MAX_RESULTS = 20;
  */
 export class SearchView {
 
-  constructor() {
+  constructor( selectedStations ) {
+    this._selectedStations = selectedStations;
     this.initEvents();
   }
 
@@ -66,7 +67,7 @@ export class SearchView {
    */
   showCurrentSearchResults( results ) {
     const list = this.ui().searchResultsList;
-    const formatResult = this.presentResult;
+    const formatResult = _.bind( this.presentResult, this );
     const displayedResults = _.slice( results.sort(), 0, MAX_RESULTS );
     const remainder = results.length - displayedResults.length;
 
@@ -101,8 +102,17 @@ export class SearchView {
 
   /** @return A formatted search result */
   presentResult( result ) {
+    const selected = this.presentSelectedStatus( result );
     return `<li class='o-search-results--result' data-notation='${result.notation()}'>` +
-           `${result.label()}</li>\n`;
+           `<label>${selected} ${result.label()}</label></li>\n`;
+  }
+
+  /** @return Markup to show if an item is selected */
+  presentSelectedStatus( result ) {
+    const stationId = result.notation();
+    const isChecked = this._selectedStations.isSelected( stationId ) ? "checked" : "";
+
+    return `<input class='js-action-selected' ${isChecked} type='checkbox' name='${stationId}'></input>`;
   }
 
   /**
