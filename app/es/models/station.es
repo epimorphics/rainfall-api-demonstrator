@@ -22,6 +22,10 @@ export class Station {
     return this.valueOrDefault( "catchmentName" );
   }
 
+  notation() {
+    return this.json["notation"];
+  }
+
   location( srs ) {
     switch(srs) {
     case "osgb": return this.locationOsgb();

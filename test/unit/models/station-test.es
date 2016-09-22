@@ -83,4 +83,9 @@ describe("Station", () => {
     const station = new Station( {} );
     expect( station.catchmentName() ).to.equal( "" );
   } );
+
+  it( "should return the station ID via the notation method", () => {
+    const station = new Station( {notation: "E1234"} );
+    expect( station.notation() ).to.equal( "E1234" );
+  } );
 });
