@@ -30,7 +30,10 @@ var seleniumServer;
 
 function imagesTask() {
   return gulp
-    .src("app/images/**/*+(png|jpg|jpeg|gif|svg)")
+    .src([
+      "app/images/**/*+(png|jpg|jpeg|gif|svg)",
+      "node_modules/leaflet/dist/images/**/*"
+    ])
     .pipe(gulp.dest("build/images"));
 }
 gulp.task("compile:images", imagesTask);

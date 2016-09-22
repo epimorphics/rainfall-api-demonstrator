@@ -9,6 +9,7 @@
     "font-awesome": "^4.6.3",
     "jquery": "^3.1.0",
     "jsdom": "^9.5.0",
+    "leaflet": "^1.0.0-rc.3",
     "lodash": "^4.15.0",
     "query-string": "^4.2.3",
     "superagent": "^2.2.0",

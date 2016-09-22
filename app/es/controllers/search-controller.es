@@ -1,5 +1,6 @@
 import {SelectedStations} from "../models/selected-stations.es";
 import {SearchView} from "../views/search.es";
+import {MapView} from "../views/map.es";
 
 /** Simple controller for displaying search/filter results */
 export class SearchController {
@@ -9,7 +10,8 @@ export class SearchController {
     };
 
     this.views = {
-      searchView: new SearchView( this.models.selected )
+      searchView: new SearchView( this.models.selected ),
+      mapView: new MapView()
     };
   }
 }

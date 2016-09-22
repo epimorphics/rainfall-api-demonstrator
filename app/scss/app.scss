@@ -7,7 +7,9 @@
   // Font-awesome
   "../../node_modules/font-awesome/scss/font-awesome",
   // typeahead
-  "../../node_modules/typeahead/style";
+  "../../node_modules/typeahead/style",
+  // leaflet
+  "../../node_modules/leaflet/dist/leaflet";
 
 // application code
 @import
@@ -21,4 +23,5 @@
   "forms",
   "main",
   "cookies",
-  "search-results";
+  "search-results",
+  "map";
