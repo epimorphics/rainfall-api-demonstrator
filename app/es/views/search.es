@@ -24,12 +24,15 @@ export class SearchView {
    */
   initEvents() {
     const onSearchBound = _.bind( this.onSearch, this );
+    const onChangeSelected = _.bind( this.onChangeSelected, this );
+
     this.ui().searchField.on( "change", onSearchBound );
     this.ui().searchField.on( "keyup", onSearchBound );
     this.ui().searchActionButton.on( "click", e => {
       e.preventDefault();
       onSearchBound();
     } );
+    this.ui().searchResults.on( "change", ".o-search-results--result input", onChangeSelected );
   }
 
   /**
@@ -38,6 +41,15 @@ export class SearchView {
   onSearch() {
     const searchStr = this.ui().searchField.val();
     this.searchBy( searchStr );
+  }
+
+  /**
+   * User has changed the selected status of a station
+   */
+  onChangeSelected( e ) {
+    const elem = $(e.currentTarget);
+    const stationId = elem.parents( "[data-notation]" ).data( "notation" );
+    this._selectedStations.setSelected( stationId, elem.is( ":checked" ));
   }
 
   /**

@@ -55,7 +55,7 @@ export function matchStations( conditions ) {
   const pattern = _.mapValues( conditions, searchStr => {
     return new RegExp( searchStr, "ig" );
   } );
-  console.log(pattern);
+
   return stationsCollection().then( stations => {
     return _.filter( stations, station => {
       return matchStation( station, pattern );
