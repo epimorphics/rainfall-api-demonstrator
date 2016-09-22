@@ -1,9 +1,10 @@
 import {expect} from "chai";
 import {describe, it} from "mocha";
+import _ from "lodash";
 
 import {stationsCollection, hasCachedStations,
         stationNames, riverNames,
-        catchmentNames} from "../../../app/es/models/stations.es";
+        catchmentNames, matchStations} from "../../../app/es/models/stations.es";
 import {Station} from "../../../app/es/models/station.es";
 
 describe( "stations model", () => {
@@ -38,6 +39,28 @@ describe( "stations model", () => {
       expect(names.length).to.be.above( 0 );
       expect(names).to.include.members(["Cuckmere and Pevensey Levels"]);
       expect(names).to.not.contain([""]);
+    } );
+  } );
+
+  it( "should match stations by name", () => {
+    return matchStations( {label: "rain"} ).then( stations => {
+      expect(stations.length).to.be.above(0);
+      _.each( stations, station => {
+        expect(station.label().toLocaleLowerCase()).to.include("rain");
+      } );
+    } );
+  } );
+
+  it( "should match stations by multiple criteria", () => {
+    return matchStations( {label: "ro", notation: "E7050"} ).then( stations => {
+      expect(stations.length).to.equal(1);
+      expect(stations[0].label()).to.equal("Crowhurst");
+    } );
+  } );
+
+  it( "should return an empty list if no criteria match", () => {
+    return matchStations( {label: "Deputy Dawg"} ).then( stations => {
+      expect( stations ).to.deep.equal( [] );
     } );
   } );
 } );

@@ -47,14 +47,27 @@ export function catchmentNames() {
 }
 
 /**
- * @param searchStr A non-empty search string
- * @return A promise of station names that match a given input string
+ * @param conditions A object denoting the criteria to search by, with
+ *                   keys that match fields in the station object
+ * @return A promise of station objects that match a given input string
  */
-export function searchStationNames( searchStr ) {
-  const pattern = new RegExp( searchStr, "ig" );
-  return stationNames().then( names => {
-    return _.filter( names, name => {return pattern.test(name);} );
+export function matchStations( conditions ) {
+  const pattern = _.mapValues( conditions, searchStr => {
+    return new RegExp( searchStr, "ig" );
   } );
+  console.log(pattern);
+  return stationsCollection().then( stations => {
+    return _.filter( stations, station => {
+      return matchStation( station, pattern );
+    } );
+  } );
+}
+
+/** @return True if the station matches the given pattern */
+function matchStation( station, pattern ) {
+  return _.reduce( pattern, (acc, value, key) => {
+    return  acc && value.test( station[key]() );
+  }, true );
 }
 
 /** @return a promise of stations retrieved via tha API */
