@@ -1,4 +1,5 @@
 "use strict";
+/* global process */
 
 var babel = require("babelify");
 var browserSync = require("browser-sync");

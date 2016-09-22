@@ -42,9 +42,10 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instance available you can make sure that not more than
         // 5 instance gets started at a time.
-        maxInstances: 5,
+        maxInstances: 1,
         //
-        browserName: 'phantomjs'
+        // browserName: 'phantomjs'
+        browserName: 'chrome'
     }],
     //
     // ===================
@@ -58,7 +59,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'error',
+    logLevel: 'result',
     //
     // Enables colors for log output.
     coloredLogs: true,
