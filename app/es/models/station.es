@@ -1,4 +1,5 @@
 import {Point} from "./point.es";
+import _ from "lodash";
 
 /** Encapsulates an immutable value returned from the API representing a station */
 export class Station {
@@ -30,6 +31,10 @@ export class Station {
     const statusURI = this.json.status || "/statusUnknown";
     return statusURI.replace( /^.*\/status/, "" )
       .toLocaleLowerCase();
+  }
+
+  get( path ) {
+    return _.get( this.json, path );
   }
 
   location( srs ) {

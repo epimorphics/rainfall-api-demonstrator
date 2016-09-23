@@ -93,4 +93,9 @@ describe("Station", () => {
     const station = new Station( STATION_FIXTURE );
     expect( station.status() ).to.equal( "active" );
   } );
+
+  it( "should allow json paths to be evaluated", () => {
+    const station = new Station( STATION_FIXTURE );
+    expect( station.get( "measures[0].period") ).to.equal( 900 );
+  } );
 });
