@@ -16,9 +16,19 @@ const STATIONS_ENDPOINT = "/flood-monitoring/id/stations";
  * of the array will be a Station value object
  */
 export function allStations() {
-  return getJSON( STATIONS_ENDPOINT, {parameter: "rainfall"})
+  return getJSON( STATIONS_ENDPOINT, {parameter: "rainfall", _view: "full"})
     .then( resultItems )
     .then( _.partial( wrapValues, Station ));
+}
+
+/**
+ * @return A detailed record for the station with the given station ID
+ * @param {String} The station ID
+ */
+export function stationDetails( stationId ) {
+  return getJSON( `${STATIONS_ENDPOINT}/${stationId}`, {_view: "full"})
+    .then( resultItems, () => {return null;} )
+    .then( json => {return json ? new Station( json ) : {}.undefined;} );
 }
 
 /**

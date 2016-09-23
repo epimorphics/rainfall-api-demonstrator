@@ -1,3 +1,12 @@
 .o-station-details--list {
   @extend .list-unstyled;
 }
+
+.c-station-detail--summary-list {
+  @extend .list-unstyled;
+}
+
+.c-station-detail--title {
+  font-weight: bold;
+  font-size: 16px;
+}

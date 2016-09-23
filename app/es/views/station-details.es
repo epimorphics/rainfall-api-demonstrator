@@ -28,7 +28,7 @@ export class StationDetailsView {
   }
 
   showStationDetails( station ) {
-    const stationDesc = station.label();
+    const stationDesc = this.stationDescription( station );
     const elem =
       `<li class='c-station-detail' data-station-id='${station.notation()}'>${stationDesc}</li>`;
     this.ui().stationDetailsList.append( elem );
@@ -36,6 +36,50 @@ export class StationDetailsView {
 
   removeStationDetails( station ) {
     $(`.c-station-detail[data-station-id='${station.notation()}']`).remove();
+  }
+
+  stationDescription( station ) {
+    return [
+      "<div class='xrow'>",
+      `  <h3 class='c-station-detail--title'>${station.label()}</h3>`,
+      "  <div class='col-sm-6'>",
+      this.stationSummary( station ),
+      "  </div>",
+      "  <div class='col-sm-6'>",
+      this.stationLatestReading( station ),
+      "  </div>",
+      "</div>"
+    ].join("\n");
+  }
+
+  stationSummary( station ) {
+    let buf = [
+      "<ul class='c-station-detail--summary-list'>"
+    ];
+
+    if (station.status()) {
+      buf.push( `<li>Status: ${station.status()}</li>` );
+    }
+
+    const location = station.location( "wgs84");
+    if (location.isDefined() ) {
+      buf.push( `<li>Lat, long: ${location.y.toFixed(2)}, ${location.x.toFixed(2)}</li>` );
+    }
+
+    if (station.get( "gridReference")) {
+      buf.push( `<li>Grid ref: ${station.get("gridReference")}</li>` );
+    }
+
+    if (station.get( "eaRegionName")) {
+      buf.push( `<li>EA region: ${station.get("eaRegionName")}</li>` );
+    }
+
+    buf.push( "</ul>" );
+    return buf.join("\n");
+  }
+
+  stationLatestReading( station ) {
+    return "";
   }
 
   ui() {

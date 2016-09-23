@@ -1,5 +1,5 @@
 import {_} from "lodash";
-import {allStations} from "../services/rainfall-api.es";
+import {allStations, stationDetails} from "../services/rainfall-api.es";
 
 /** Cached array of rainfall stations */
 let stations, stationsPromise;
@@ -69,9 +69,7 @@ export function matchStations( conditions ) {
  *         ID as a Station object, or undefined.
  */
 export function stationWithId( stationId ) {
-  return stationsCollection().then( stations => {
-    return _.find( stations, station => station.notation() === stationId );
-  } );
+  return stationDetails( stationId );
 }
 
 /** @return True if the station matches the given pattern */
