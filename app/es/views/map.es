@@ -1,5 +1,6 @@
 import L from "leaflet";
 import _ from "lodash";
+import $ from "jquery";
 import {stationsCollection} from "../models/stations.es";
 require( "leaflet.markercluster" );
 
@@ -8,6 +9,7 @@ export class MapView {
     this._selectedStations = selectedStations;
     this.initMap();
     this.addStationMarkers();
+    this.initEvents();
   }
 
   initMap() {
@@ -23,6 +25,10 @@ export class MapView {
 
     // marker images path
     L.Icon.Default.imagePath = "images";
+  }
+
+  initEvents() {
+    $("body").on( "rainfall-demo.selected", _.bind( this.onStationSelected, this ) );
   }
 
   addStationMarkers() {
@@ -92,10 +98,31 @@ export class MapView {
     this.selectMarker( marker, nowSelected );
   }
 
-  selectMarker( marker, selected ) {
-    if (marker.selected != selected) {
-      marker.selected = selected;
+  selectMarker( marker, selected, noTrigger ) {
+    if (marker.options.selected != selected) {
+      marker.options.selected = selected;
       marker.setIcon( this.markerIconForStatus( selected ) );
+      if (!noTrigger) {
+        this.triggerSelected( marker.options.stationId, selected );
+      }
     }
+  }
+
+  // events
+
+  /** Notify other components that the selection state has changed */
+  triggerSelected( stationId, selected ) {
+    $("body").trigger( "rainfall-demo.selected", [stationId, selected] );
+  }
+
+  /** Ensure that map marker status stays in sync with selection status from other components */
+  onStationSelected( event, stationId, selected ) {
+    const selectMarkerFn = _.bind( this.selectMarker, this );
+
+    this._map.eachLayer( layer => {
+      if (layer.options.stationId == stationId && layer.options.selected != selected) {
+        selectMarkerFn( layer, selected, true );
+      }
+    } );
   }
 }

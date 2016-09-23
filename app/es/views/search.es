@@ -33,6 +33,8 @@ export class SearchView {
       onSearchBound();
     } );
     this.ui().searchResults.on( "change", ".o-search-results--result input", onChangeSelected );
+
+    $("body").on( "rainfall-demo.selected", _.bind( this.onStationSelected, this ) );
   }
 
   /**
@@ -49,7 +51,10 @@ export class SearchView {
   onChangeSelected( e ) {
     const elem = $(e.currentTarget);
     const stationId = elem.parents( "[data-notation]" ).data( "notation" );
-    this._selectedStations.setSelected( stationId, elem.is( ":checked" ));
+    const selected = elem.is( ":checked" );
+
+    this._selectedStations.setSelected( stationId, selected );
+    this.triggerSelected( stationId, selected );
   }
 
   /**
@@ -145,5 +150,18 @@ export class SearchView {
     }
 
     return this._ui;
+  }
+
+  // events
+
+  /** Notify other components that the selection state has changed */
+  triggerSelected( stationId, selected ) {
+    $("body").trigger( "rainfall-demo.selected", [stationId, selected] );
+  }
+
+  /** Ensure that checkbox state stays in sync with changes to selected state */
+  onStationSelected( event, stationId, selected ) {
+    this._selectedStations.setSelected( stationId, selected );
+    $(`[data-notation=${stationId}] input`).prop( "checked", selected );
   }
 }
