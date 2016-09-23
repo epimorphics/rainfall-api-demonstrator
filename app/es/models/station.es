@@ -26,6 +26,12 @@ export class Station {
     return this.json["notation"];
   }
 
+  status() {
+    const statusURI = this.json.status || "/statusUnknown";
+    return statusURI.replace( /^.*\/status/, "" )
+      .toLocaleLowerCase();
+  }
+
   location( srs ) {
     switch(srs) {
     case "osgb": return this.locationOsgb();

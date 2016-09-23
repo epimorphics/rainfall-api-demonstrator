@@ -88,4 +88,9 @@ describe("Station", () => {
     const station = new Station( {notation: "E1234"} );
     expect( station.notation() ).to.equal( "E1234" );
   } );
+
+  it( "should return the status of the station", () => {
+    const station = new Station( STATION_FIXTURE );
+    expect( station.status() ).to.equal( "active" );
+  } );
 });
