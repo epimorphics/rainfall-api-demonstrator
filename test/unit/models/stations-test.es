@@ -4,7 +4,8 @@ import _ from "lodash";
 
 import {stationsCollection, hasCachedStations,
         stationNames, riverNames,
-        catchmentNames, matchStations} from "../../../app/es/models/stations.es";
+        catchmentNames, matchStations,
+        stationWithId} from "../../../app/es/models/stations.es";
 import {Station} from "../../../app/es/models/station.es";
 
 describe( "stations model", () => {
@@ -61,6 +62,18 @@ describe( "stations model", () => {
   it( "should return an empty list if no criteria match", () => {
     return matchStations( {label: "Deputy Dawg"} ).then( stations => {
       expect( stations ).to.deep.equal( [] );
+    } );
+  } );
+
+  it( "should return a station if the ID matches", () => {
+    return  stationWithId( "52203" ).then( station => {
+      expect( station.label() ).to.equal( "BARROW GURNEY RG" );
+    } );
+  } );
+
+  it( "should return a null if the ID does not match", () => {
+    return  stationWithId( "522039999999999999999" ).then( station => {
+      expect( station ).to.be.undefined;
     } );
   } );
 } );

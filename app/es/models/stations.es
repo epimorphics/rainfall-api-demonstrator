@@ -63,6 +63,17 @@ export function matchStations( conditions ) {
   } );
 }
 
+/**
+ * @param {String} A station ID
+ * @return A promise that resolves to the station with that
+ *         ID as a Station object, or undefined.
+ */
+export function stationWithId( stationId ) {
+  return stationsCollection().then( stations => {
+    return _.find( stations, station => station.notation() === stationId );
+  } );
+}
+
 /** @return True if the station matches the given pattern */
 function matchStation( station, pattern ) {
   return _.reduce( pattern, (acc, value, key) => {
