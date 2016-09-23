@@ -50,7 +50,7 @@ export class SearchView {
    */
   onChangeSelected( e ) {
     const elem = $(e.currentTarget);
-    const stationId = elem.parents( "[data-notation]" ).data( "notation" );
+    const stationId = String( elem.parents( "[data-notation]" ).data( "notation" ) );
     const selected = elem.is( ":checked" );
 
     this._selectedStations.setSelected( stationId, selected );
