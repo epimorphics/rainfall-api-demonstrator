@@ -1,6 +1,7 @@
 import L from "leaflet";
 import _ from "lodash";
 import {stationsCollection} from "../models/stations.es";
+require( "leaflet.markercluster" );
 
 export class MapView {
   constructor( selectedStations ) {
@@ -25,24 +26,31 @@ export class MapView {
   }
 
   addStationMarkers() {
-    let map = this._map;
-    const addMarkerFn = _.bind( this.addMarker, this );
+    const createMarkerFn = _.bind( this.createMarkerFor, this );
+    const map = this._map;
 
     stationsCollection().then( stations => {
+      let markers = [];
+
       _.each( stations, station => {
         if (station.locationWgs84().isDefined()) {
-          addMarkerFn( station, map );
+          markers.push( createMarkerFn( station ) );
         }
         else {
           // console.log( "No location for station: " + station.notation() );
         }
       } );
+
+      let markersGroup = L.markerClusterGroup();
+      markersGroup.addLayers( markers );
+      map.addLayer( markersGroup );
     } );
+
   }
 
-  addMarker( station, map ) {
+  createMarkerFor( station ) {
     const icon = this.markerIcon( station );
-    const marker = L.marker( station.locationWgs84().asLatLng(), {
+    let marker = L.marker( station.locationWgs84().asLatLng(), {
       icon: icon,
       title: station.label(),
       stationId: station.notation(),
@@ -50,7 +58,7 @@ export class MapView {
     } );
 
     marker.on( "click", _.bind( this.onMarkerClick, this ) );
-    marker.addTo( map );
+    return marker;
   }
 
   markerIcon( station ) {
