@@ -1,5 +1,3 @@
-import L from "leaflet";
-
 /** Encapsulates a 2-d point, within a coordinate reference system */
 export class Point {
   constructor( x, y, srs ) {
@@ -9,6 +7,10 @@ export class Point {
   }
 
   asLatLng() {
-    return L.latLng( this.y, this.x );
+    return [this.y, this.x];
+  }
+
+  isDefined() {
+    return !!(this.x && this.y);
   }
 }
