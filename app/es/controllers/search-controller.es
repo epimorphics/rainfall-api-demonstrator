@@ -11,7 +11,7 @@ export class SearchController {
 
     this.views = {
       searchView: new SearchView( this.models.selected ),
-      mapView: new MapView()
+      mapView: new MapView( this.models.selected )
     };
   }
 }
