@@ -28,8 +28,9 @@ export class Station {
   }
 
   status() {
-    const statusURI = this.json.status || "/statusUnknown";
-    return statusURI.replace( /^.*\/status/, "" )
+    const statusURI = this.json.status || null;
+    return statusURI &&
+      statusURI.replace( /^.*\/status/, "" )
       .toLocaleLowerCase();
   }
 

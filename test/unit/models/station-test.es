@@ -94,6 +94,11 @@ describe("Station", () => {
     expect( station.status() ).to.equal( "active" );
   } );
 
+  it( "should return null if the status of the station is not known", () => {
+    const station = new Station( {} );
+    expect( station.status() ).to.be.null;
+  } );
+
   it( "should allow json paths to be evaluated", () => {
     const station = new Station( STATION_FIXTURE );
     expect( station.get( "measures[0].period") ).to.equal( 900 );
