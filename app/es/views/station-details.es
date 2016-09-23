@@ -79,7 +79,20 @@ export class StationDetailsView {
   }
 
   stationLatestReading( station ) {
-    return "";
+    let buf = [
+      "<h4 class='c-station-latest-reading--heading'>Latest reading</h4>",
+      "<ul class='c-station-latest-reading--list'>"
+    ];
+
+    const reading = station.get( "measures.latestReading");
+    if (reading) {
+      buf.push( `<li>date: ${reading.date}</li>` );
+      buf.push( `<li>time: ${reading.dateTime.match(/T(.*)Z/ )[1]}</li>` );
+      buf.push( `<li>reading (mm): ${reading.value}</li>` );
+    }
+
+    buf.push( "</ul>" );
+    return buf.join("\n");
   }
 
   ui() {

@@ -10,3 +10,13 @@
   font-weight: bold;
   font-size: 16px;
 }
+
+.c-station-latest-reading--heading {
+  font-weight: bold;
+  font-size: inherit;
+  margin-bottom: 0;
+}
+
+.c-station-latest-reading--list {
+  @extend .list-unstyled;
+}
