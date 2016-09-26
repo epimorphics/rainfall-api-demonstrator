@@ -27,6 +27,10 @@ export class Station {
     return this.json["notation"];
   }
 
+  stationId() {
+    return this.notation();
+  }
+
   status() {
     const statusURI = this.json.status || null;
     return statusURI &&

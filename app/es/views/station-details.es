@@ -40,13 +40,20 @@ export class StationDetailsView {
 
   stationDescription( station ) {
     return [
-      "<div class='xrow'>",
-      `  <h3 class='c-station-detail--title'>${station.label()}</h3>`,
-      "  <div class='col-sm-6'>",
-      this.stationSummary( station ),
+      "<div class='row'>",
+      "  <div class='col-sm-12'>",
+      `    <h3 class='c-station-detail--title'>${station.label()}</h3>`,
       "  </div>",
       "  <div class='col-sm-6'>",
+      "  <div class='row'>",
+      "    <div class='col-sm-6'>",
+      this.stationSummary( station ),
+      "    </div>",
+      "    <div class='col-sm-6'>",
       this.stationLatestReading( station ),
+      "    </div>",
+      "  </div>",
+      "  <div class='col-sm-6'>",
       "  </div>",
       "</div>"
     ].join("\n");
@@ -56,6 +63,8 @@ export class StationDetailsView {
     let buf = [
       "<ul class='c-station-detail--summary-list'>"
     ];
+
+    buf.push( `<li>Station ID: ${station.stationId()}</li>` );
 
     if (station.status()) {
       buf.push( `<li>Status: ${station.status()}</li>` );
@@ -79,19 +88,17 @@ export class StationDetailsView {
   }
 
   stationLatestReading( station ) {
+    const idRef = `data-station-id='${station.stationId()}' `;
+
     let buf = [
       "<h4 class='c-station-latest-reading--heading'>Latest reading</h4>",
-      "<ul class='c-station-latest-reading--list'>"
+      "<ul class='c-station-latest-reading--list'>",
+      `<li>date: <span class='js-reading-date' ${idRef}></span></li>`,
+      `<li>time: <span class='js-reading-time' ${idRef}></span></li>`,
+      `<li>rainfall (mm): <span class='js-reading-value' ${idRef}></span></li>`,
+      "</ul>"
     ];
 
-    const reading = station.get( "measures.latestReading");
-    if (reading) {
-      buf.push( `<li>date: ${reading.date}</li>` );
-      buf.push( `<li>time: ${reading.dateTime.match(/T(.*)Z/ )[1]}</li>` );
-      buf.push( `<li>reading (mm): ${reading.value}</li>` );
-    }
-
-    buf.push( "</ul>" );
     return buf.join("\n");
   }
 
