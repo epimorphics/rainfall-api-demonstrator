@@ -1,6 +1,8 @@
 import _ from "lodash";
 import moment from "moment";
 
+export const READINGS_DATE_FORMAT = "D MMM YYYY";
+
 /** Encapsulate a reading from a rainfall station */
 export class Reading {
   constructor( json ) {
@@ -32,7 +34,7 @@ export class Reading {
   }
 
   formattedDate() {
-    return this.dateTime().format( "D MMM YYYY" );
+    return this.dateTime().format( READINGS_DATE_FORMAT );
   }
 
   get( path ) {
