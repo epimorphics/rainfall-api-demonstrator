@@ -3,6 +3,7 @@ import $ from "jquery";
 import moment from "moment";
 import {stationMeasures} from "../services/rainfall-api.es";
 import {READINGS_DATE_FORMAT} from "../models/reading.es";
+import Chartist from "chartist";
 
 const DEFAULT_LIMIT = 2000;
 
@@ -27,13 +28,25 @@ export class RainfallGraphView {
   }
 
   collectMeasures( measures) {
-    // const totals = this.aggregateMeasures( measures );
     this.displayLatest( this.latest( measures ), this._station.stationId() );
+    const totals = this.aggregateMeasures( measures );
+    const stationId = this._station.stationId();
+    const graphOptions = {
+      axisX: {
+        type: Chartist.FixedScaleAxis,
+        divisor: 5,
+        labelInterpolationFnc: value => {
+          return moment(value).format("D MMM");
+        }
+      }};
+    new Chartist.Bar( `li[data-station-id=${stationId}] .ct-chart`,
+                      {series: this.createSeries( totals )},
+                      graphOptions );
   }
 
   aggregateMeasures( measures ) {
-    var agMeasures = _.groupBy( measures, measure => {measure.formattedDate();} );
-    var totals = _.map( agMeasures, (fDate, measures) => {
+    var agMeasures = _.groupBy( measures, measure => {return measure.formattedDate();} );
+    var totals = _.map( agMeasures, (measures, fDate) => {
       const total = _.sum(
         _.map( measures, measure => {return measure.value();} )
       );
@@ -65,5 +78,18 @@ export class RainfallGraphView {
     } );
 
     return latest;
+  }
+
+  /**
+   * Transform an array of pairs of data, of the form `[data, value]` into
+   * an array of dates and an array of values. This is similar to the Lodash
+   * zip function, but we need to use the spread operator to expand the arrays
+   */
+  createSeries( totals ) {
+    return [{
+      data: _.map( totals, pair => {
+        return {x: pair[0], y: pair[1]};
+      })
+    }];
   }
 }
