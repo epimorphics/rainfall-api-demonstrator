@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "lodash";
 import {stationWithId} from "../models/stations.es";
+import {RainfallGraphView} from "./rainfall-graph.es";
 
 /**
  * A view that maintains a list of the selected stations shown with details */
@@ -32,6 +33,8 @@ export class StationDetailsView {
     const elem =
       `<li class='c-station-detail' data-station-id='${station.notation()}'>${stationDesc}</li>`;
     this.ui().stationDetailsList.append( elem );
+
+    new RainfallGraphView( station );
   }
 
   removeStationDetails( station ) {
@@ -54,6 +57,7 @@ export class StationDetailsView {
       "    </div>",
       "  </div>",
       "  <div class='col-sm-6'>",
+      `    <div class='c-rainfall-graph' data-station-id='${station.stationId()}'></div>`,
       "  </div>",
       "</div>"
     ].join("\n");

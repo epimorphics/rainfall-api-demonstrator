@@ -12,6 +12,7 @@
     "leaflet": "^1.0.0-rc.3",
     "leaflet.markercluster": "^1.0.0-rc.1.0",
     "lodash": "^4.15.0",
+    "moment": "^2.15.1",
     "query-string": "^4.2.3",
     "superagent": "^2.2.0",
     "typeahead": "^0.2.2"

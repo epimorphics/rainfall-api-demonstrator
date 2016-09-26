@@ -3,6 +3,7 @@ import request from "superagent";
 import {_} from "lodash";
 
 import {Station} from "../models/station.es";
+import {Reading} from "../models/reading.es";
 
 /** The root of the API URLs */
 const API_ROOT = "http://ea-floods-testing.epimorphics.net";
@@ -29,6 +30,18 @@ export function stationDetails( stationId ) {
   return getJSON( `${STATIONS_ENDPOINT}/${stationId}`, {_view: "full"})
     .then( resultItems, () => {return null;} )
     .then( json => {return json ? new Station( json ) : {}.undefined;} );
+}
+
+/**
+ * @return A promise of a collection of rainfall readings for a given
+ * time period
+ * @param {String} The ID of the station for which data is requested
+ * @param {Object} Additional parameters, e.g. the limit and time period
+ */
+export function stationMeasures( stationId, options ) {
+  return getJSON( `${STATIONS_ENDPOINT}/${stationId}/readings`, options )
+    .then( resultItems )
+    .then( _.partial( wrapValues, Reading ));
 }
 
 /**
