@@ -13,7 +13,7 @@ For reference purposes, this application illustrates the incorporation of data f
   * for each selected station, present key information from the underlying linked data, show the latest rainfall reading, and show a graph of cumulative rainfall over the previous month
   * provide a cheat-sheet of example API endpoints for features of a given station
 
-Todo add screenshot
+![screenshot of demo app](https://github.com/epimorphics/rainfall-api-demonstrator/blob/master/docs/screenshot.png?raw=true "Rainfall API demo app")
 
 ## Code layout
 
