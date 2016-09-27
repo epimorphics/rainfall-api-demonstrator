@@ -16,8 +16,9 @@ const STATIONS_ENDPOINT = "/flood-monitoring/id/stations";
  * current rainfall stations, with basic metadata. Each element
  * of the array will be a Station value object
  */
-export function allStations() {
-  return getJSON( STATIONS_ENDPOINT, {parameter: "rainfall", _view: "full"})
+export function allStations( options ) {
+  const params = _.extend( {parameter: "rainfall", _view: "full"}, options );
+  return getJSON( STATIONS_ENDPOINT, params )
     .then( resultItems )
     .then( _.partial( wrapValues, Station ));
 }

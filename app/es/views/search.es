@@ -1,12 +1,17 @@
 const $ = require("jquery");
 const _ = require("lodash");
 import {matchStations} from "../models/stations.es";
+import {lookupPostcode} from "../services/postcodes-api.es";
+import {allStations} from "../services/rainfall-api.es";
 
 /** Minimum number of characters in a search string */
 const MIN_SEARCH_LENGTH = 2;
 
 /** Maximum number of results to show by default */
 const MAX_RESULTS = 20;
+
+/** Nearness of location search results to a point, in km */
+const LOCATION_SEARCH_KM = 10;
 
 /**
  * A view which listens to user inputs, and matches stations by name or
@@ -70,10 +75,45 @@ export class SearchView {
     if (searchStr !== "" && searchStr.length >= MIN_SEARCH_LENGTH) {
       matchStations( {label: searchStr} ).then( results => {
         this.clearCurrentSearchResults();
-        this.summariseSearchResults( results );
-        this.showCurrentSearchResults( results, all );
+        if (results.length > 0) {
+          this.summariseSearchResults( results );
+          this.showCurrentSearchResults( results, all );
+        }
+        else {
+          this.postcodeSearch( searchStr );
+        }
       });
     }
+  }
+
+  /**
+   * Search string has not matched a station name, so try it as a postcode
+   * instead.
+   * @param {String} search string that does not match any station names
+   */
+  postcodeSearch( searchStr ) {
+    lookupPostcode( searchStr ).then( result => {
+      if (result) {
+        this.searchByLocation( result.latitude, result.longitude );
+      }
+      else {
+        this.summariseSearchResults( [] );
+        this.ui().searchResults.removeClass("hidden");
+      }
+    }, () => {
+      this.summariseSearchResults( [] );
+    } );
+  }
+
+  searchByLocation( lat, lng ) {
+    allStations( {
+      lat: lat,
+      long: lng,
+      dist: LOCATION_SEARCH_KM
+    } ).then( results => {
+      this.summariseSearchResults( results, true );
+      this.showCurrentSearchResults( results );
+    } );
   }
 
   /**
@@ -111,18 +151,22 @@ export class SearchView {
   /**
    * Summarise the number of results found
    */
-  summariseSearchResults( results ) {
+  summariseSearchResults( results, distanceSearch ) {
     const summary = this.ui().searchResultsSummary;
+    const location = distanceSearch ?
+      ` near to ${this.ui().searchField.val().toLocaleUpperCase()}` :
+      "";
+    const resultType = distanceSearch ? ["location", "locations"] : ["match", "matches"];
 
     switch( results.length ) {
     case 0:
       summary.html("No matches.");
       break;
     case 1:
-      summary.html("Found one match.");
+      summary.html(`Found one ${resultType[0]}${location}.`);
       break;
     default:
-      summary.html(`Found ${results.length} matches`);
+      summary.html(`Found ${results.length} ${resultType[1]}${location}`);
     }
   }
 
