@@ -74,9 +74,8 @@ export class SearchView {
   searchBy( searchStr, all ) {
     if (searchStr !== "" && searchStr.length >= MIN_SEARCH_LENGTH) {
       matchStations( {label: searchStr} ).then( results => {
-        this.clearCurrentSearchResults();
         if (results.length > 0) {
-          this.summariseSearchResults( results );
+            this.summariseSearchResults( results );
           this.showCurrentSearchResults( results, all );
         }
         else {
@@ -152,6 +151,8 @@ export class SearchView {
    * Summarise the number of results found
    */
   summariseSearchResults( results, distanceSearch ) {
+    this.clearCurrentSearchResults();
+
     const summary = this.ui().searchResultsSummary;
     const location = distanceSearch ?
       ` near to ${this.ui().searchField.val().toLocaleUpperCase()}` :
