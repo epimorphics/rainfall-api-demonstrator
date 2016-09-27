@@ -18,7 +18,8 @@ export class RainfallGraphView {
     this._station = station;
     stationMeasures( station.stationId(), {
       since: this.rainfallDisplayPeriod(),
-      _limit: DEFAULT_LIMIT
+      _limit: DEFAULT_LIMIT,
+      parameter: "rainfall"
     }).then( _.bind( this.collectMeasures, this ) );
   }
 
@@ -62,7 +63,7 @@ export class RainfallGraphView {
         })
       ]
     };
-    new Chartist.Bar( `li[data-station-id=${stationId}] .ct-chart`,
+    new Chartist.Bar( `li[data-station-id='${stationId}'] .ct-chart`,
                       {series: this.createSeries( totals )},
                       graphOptions );
   }
@@ -84,11 +85,11 @@ export class RainfallGraphView {
   }
 
   displayLatest( latest, stationId ) {
-    $(`[data-station-id=${stationId}].js-reading-value`)
+    $(`[data-station-id='${stationId}'].js-reading-value`)
       .text( latest.value() );
-    $(`[data-station-id=${stationId}].js-reading-date`)
+    $(`[data-station-id='${stationId}'].js-reading-date`)
       .text( latest.formattedDate() );
-    $(`[data-station-id=${stationId}].js-reading-time`)
+    $(`[data-station-id='${stationId}'].js-reading-time`)
       .text( latest.formattedTime() );
   }
 
