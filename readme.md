@@ -50,7 +50,7 @@ The primary purpose of this application is to demonstrate the API endpoints in u
 
 ## Code of conduct
 
-We endorse the [code of conduct](CODE_OF_CONDUCT) for open-source projects and contributors.
+We endorse the [code of conduct](CODE_OF_CONDUCT.md) for open-source projects and contributors.
 
 # License
 
