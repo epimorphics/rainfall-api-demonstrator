@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+  <script src="js/build.js"></script>
+
+</head>
+<body>
+  <nav class='navbar o-navbar-ea navbar-static-top' role='navigation'>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-sm-3'>
+        <div class='navbar-header'>
+          <button aria-expanded='false' class='navbar-toggle collapsed' data-target='#navbar-ea-menu' data-toggle='collapse' type='button'>
+            <span class='sr-only'>Toggle navigation</span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+          </button>
+          <a alt='Environment Agency' class='navbar-brand' href='https://www.gov.uk/government/organisations/environment-agency'>
+            <img alt='Environment Agency logo' class='o-navbar-ea-brand--img' src='images/logo/ea-logo-en-dark.png' srcset='images/logo/ea-logo-master-dark-plain.svg'>
+          </a>
+        </div>
+      </div>
+      <div class='col-sm-9'>
+        <div class='row'>
+          <div class='col-sm-12'>
+            <div class='c-proposition-name'>
+              <a class='' href='#'>Rainfall API demonstrator</a>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-sm-12'>
+            <div class='collapse navbar-collapse' id='navbar-ea-menu'>
+              <ul class='nav navbar-nav navbar-left u-full-width u-margin-0-horiz'>
+                <li><!-- set class="active" to indicate the current page -->
+                  <a href='index.html' class='active'>Home</a>
+                </li>
+                <li>
+                  <a href='http://environment.data.gov.uk/flood-monitoring/doc/rainfall' class='active'>Documentation</a>
+                </li>
+                <li class="pull-right">
+                  <a href='http://environment.data.gov.uk'>EA open datasets</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class='o-top-colour-bar'>
+  <div class='container'>
+    <div class='o-top-colour-bar--bar'></div>
+  </div>
+</div>
+
+  <main>
+    
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Rainfall API demonstrator</h2>
+      <p class="text-muted">
+        Browse data from the network of tipping-gauge rainfall sensors maintained
+        by the
+        <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a>,
+        available as open linked-data via the
+        <a href="http://environment.data.gov.uk/flood-monitoring/doc/rainfall">
+          Rainfall API
+        </a>.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="map"></div>
+
+    </div>
+    <div class="col-sm-6">
+      <form id="search">
+  <div class="form-group row">
+    <label for="searchField" class="col-sm-2 c-form-label">Search</label>
+    <div class="col-sm-10">
+      <div class="input-group">
+        <input type="text" class="form-control" id="searchField" name="searchField" />
+        <span class="input-group-addon input-group-addon__with-button">
+          <button class="btn btn-sm btn-default js-action-search">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+      <div class="text-muted">
+        Search for stations by name, or enter a postcode
+      </div>
+    </div>
+  </div>
+</form>
+
+      <div class="o-search-results hidden">
+  <h2 class="o-search-results--heading">Search results</h2>
+  <p class="o-search-results--summary"></p>
+  <ul class="o-search-results--list">
+  </ul>
+</div>
+
+    </div>
+  </div>
+
+  <div class="o-station-details">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="o-station-details--heading">
+        Selected rainfall monitoring stations
+      </h2>
+    </div>
+
+    <div class="col-sm-12">
+      <ul class="o-station-details--list">
+        <li class="o-station-details--list__default-message">
+          <p class="text-muted"><em>Please select one or more stations via the map or search facility.</em></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="modal fade" id="apiDetailsModal" tabindex="-1" role="dialog" aria-labelledby="apiDetailsModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="apiDetailsModalLabel">
+          Example API endpoints for <span class="js-station-name"></span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">
+          The rainfall API can return a variety of current and historical rainfall data for monitoring
+          stations in England. Please see
+          <a href="http://environment.data.gov.uk/flood-monitoring/doc/rainfall">
+            the API documentation
+          </a> for full details. Below, we
+          suggest some useful endpoints for the station you selected.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Purpose</th>
+              <th>HTML page</th>
+              <th>as JSON</th>
+              <th>as CSV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="js-station-info-link">
+              <td>Information about this rainfall measurement station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-measures-link">
+              <td>Measures available from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-rainfall-readings-today-link">
+              <td>Today's readings of rainfall from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-rainfall-readings-link">
+              <td>Most-recent 100 readings of rainfall from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </main>
+  <footer class="o-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="">
+          <div class="c-footer-credits">
+            <h4 class="">Support</h4>
+            <p>
+              To contact the Environment Agency, please use
+              <a class="indicator i18n" href="https://www.gov.uk/government/organisations/environment-agency#org-contacts">our contacts page.</a>
+            </p>
+            <p>
+              If you notice a problem with the data provided by this site, please <a href="mailto:data.info@environment-agency.gov.uk">send us an email</a>.
+            </p>
+            <p>
+              Find out about the <a href="/cookies">use of cookies</a> on this site.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <h4>About this page</h4>
+        <p class="c-footer-license">
+          <a href="http://data.gov.uk/linked-data">
+            <img class="c-linked-data-logo" src="images/logo/linked-data-logo-white.png" srcset="images/logo/linked-data-logo-white.svg" alt="powered by linked data" />
+          </a>
+        </p>
+        <p>
+          All content is available under the
+          <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>,
+          except where otherwise stated
+        </p>
+        <p class="c-footer-epimorphics">
+          <span class="i18n">Design and development by</span>
+          <a href="http://www.epimorphics.com">Epimorphics</a>.
+        </p>
+      </div>
+
+    </div><!--/.row-->
+  </div>
+</footer>
+
+</body>
+</html>
