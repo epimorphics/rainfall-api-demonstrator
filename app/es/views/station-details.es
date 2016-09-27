@@ -58,7 +58,7 @@ export class StationDetailsView {
       "    </div>",
       "  </div>",
       "  <div class='col-sm-6'>",
-      `    <div class='c-rainfall-graph ct-chart ct-major-twelfth' data-station-id='${station.stationId()}'></div>`,
+      `    <div class='c-rainfall-graph ct-chart ct-double-octave' data-station-id='${station.stationId()}'></div>`,
       "  </div>",
       "</div>"
     ].join("\n");

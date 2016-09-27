@@ -3,7 +3,9 @@ import $ from "jquery";
 import moment from "moment";
 import {stationMeasures} from "../services/rainfall-api.es";
 import {READINGS_DATE_FORMAT} from "../models/reading.es";
-import Chartist from "chartist";
+const Chartist = require( "chartist" );
+window.Chartist = Chartist;
+require( "chartist-plugin-axistitle" );
 
 const DEFAULT_LIMIT = 2000;
 
@@ -34,11 +36,32 @@ export class RainfallGraphView {
     const graphOptions = {
       axisX: {
         type: Chartist.FixedScaleAxis,
-        divisor: 5,
+        divisor: 4,
         labelInterpolationFnc: value => {
           return moment(value).format("D MMM");
         }
-      }};
+      },
+      axisY: {
+        labelInterpolationFnc: value => {
+          return `${value.toFixed(1)}`;
+        }
+      },
+      plugins: [
+        Chartist.plugins.ctAxisTitle({
+          axisY: {
+            axisTitle: "Rainfall (mm)",
+            axisClass: "ct-axis-title",
+            offset: {
+              x: 0,
+              y: 12
+            },
+            textAnchor: "middle",
+            flipTitle: true
+          },
+          axisX: {}
+        })
+      ]
+    };
     new Chartist.Bar( `li[data-station-id=${stationId}] .ct-chart`,
                       {series: this.createSeries( totals )},
                       graphOptions );
