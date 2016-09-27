@@ -1,6 +1,6 @@
 # Rainfall API demonstrator
 
-The Environment Agency publish a range of linked open datasets, including readings from rainfall gauges around England. Current and historical data from these gaages is availble via an [http://environment.data.gov.uk/flood-monitoring/doc/rainfall](API).
+The Environment Agency publish a range of linked open datasets, including readings from rainfall gauges around England. Current and historical data from these gaages is availble via an [API](http://environment.data.gov.uk/flood-monitoring/doc/rainfall).
 
 For reference purposes, this application illustrates the incorporation of data from the rainfall gauge API into a simple JavaScript web application.
 
@@ -32,7 +32,7 @@ HTML code is built from page files in `app/pages`, which pulls in component layo
 
 ## Build tools
 
-The app is built using [http://gulpjs.com/](gulp). To see the various build targets, from the command line do:
+The app is built using [gulp](http://gulpjs.com/). To see the various build targets, from the command line do:
 
     gulp -T
 
@@ -50,7 +50,7 @@ The primary purpose of this application is to demonstrate the API endpoints in u
 
 ## Code of conduct
 
-We endorse the [CODE_OF_CONDUCT](code of conduct) for open-source projects and contributors.
+We endorse the [code of conduct](CODE_OF_CONDUCT) for open-source projects and contributors.
 
 # License
 
@@ -62,4 +62,4 @@ We endorse the [CODE_OF_CONDUCT](code of conduct) for open-source projects and c
 
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Data published via the Rainfall API is available under the [https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/](Open Government License)
+Data published via the Rainfall API is available under the [Open Government License](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
