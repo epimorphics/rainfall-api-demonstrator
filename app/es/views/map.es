@@ -24,7 +24,7 @@ export class MapView {
     this._map.addLayer( osm );
 
     // marker images path
-    L.Icon.Default.imagePath = "images";
+    L.Icon.Default.imagePath = "images/";
   }
 
   initEvents() {
@@ -85,7 +85,7 @@ export class MapView {
   selectedMarkerIcon() {
     return L.Icon.Default.extend( {
       options: {
-        iconUrl: "images/marker-icon-selected.png"
+        iconUrl: "marker-icon-selected.png"
       }
     });
   }
