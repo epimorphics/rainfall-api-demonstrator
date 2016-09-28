@@ -21,3 +21,14 @@
 .c-station-latest-reading--list {
   @extend .list-unstyled;
 }
+
+.c-api-details-btn {
+  font-size: 85%;
+  background-color: $grey-1;
+  color: white;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-weight: normal;
+  border: 0;
+  margin-left: 10px;
+}

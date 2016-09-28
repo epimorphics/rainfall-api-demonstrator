@@ -1,0 +1,85 @@
+<div class="modal fade" id="apiDetailsModal" tabindex="-1" role="dialog" aria-labelledby="apiDetailsModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="apiDetailsModalLabel">
+          Example API endpoints for <span class="js-station-name"></span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">
+          The rainfall API can return a variety of current and historical rainfall data for monitoring
+          stations in England. Please see
+          <a href="http://environment.data.gov.uk/flood-monitoring/doc/rainfall">
+            the API documentation
+          </a> for full details. Below, we
+          suggest some useful endpoints for the station you selected.
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Purpose</th>
+              <th>HTML page</th>
+              <th>as JSON</th>
+              <th>as CSV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="js-station-info-link">
+              <td>Information about this rainfall measurement station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-measures-link">
+              <td>Measures available from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-rainfall-readings-today-link">
+              <td>Today's readings of rainfall from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+            <tr class="js-station-rainfall-readings-link">
+              <td>Most-recent 100 readings of rainfall from this station</td>
+              <td>
+                <a href="#" target="_" class="js-html"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-json"><i class="fa fa-external-link"></i></a>
+              </td>
+              <td>
+                <a href="#" target="_" class="js-csv"><i class="fa fa-external-link"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

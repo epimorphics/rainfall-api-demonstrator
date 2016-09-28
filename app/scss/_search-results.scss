@@ -1,3 +1,12 @@
+.o-search-results {
+}
+
 .o-search-results--list {
   @extend .list-unstyled;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.o-search-results--heading {
+  font-size: 18px;
 }

@@ -1,12 +1,17 @@
 const $ = require("jquery");
 const _ = require("lodash");
 import {matchStations} from "../models/stations.es";
+import {lookupPostcode} from "../services/postcodes-api.es";
+import {allStations} from "../services/rainfall-api.es";
 
 /** Minimum number of characters in a search string */
 const MIN_SEARCH_LENGTH = 2;
 
 /** Maximum number of results to show by default */
 const MAX_RESULTS = 20;
+
+/** Nearness of location search results to a point, in km */
+const LOCATION_SEARCH_KM = 10;
 
 /**
  * A view which listens to user inputs, and matches stations by name or
@@ -26,13 +31,16 @@ export class SearchView {
     const onSearchBound = _.bind( this.onSearch, this );
     const onChangeSelected = _.bind( this.onChangeSelected, this );
 
-    this.ui().searchField.on( "change", onSearchBound );
     this.ui().searchField.on( "keyup", onSearchBound );
     this.ui().searchActionButton.on( "click", e => {
       e.preventDefault();
       onSearchBound();
     } );
     this.ui().searchResults.on( "change", ".o-search-results--result input", onChangeSelected );
+    this.ui().searchResults.on( "click", ".js-action-show-all", e => {
+      e.preventDefault();
+      onSearchBound( e, true );
+    } );
 
     $("body").on( "rainfall-demo.selected", _.bind( this.onStationSelected, this ) );
   }
@@ -40,9 +48,9 @@ export class SearchView {
   /**
    * User has typed into search box
    */
-  onSearch() {
+  onSearch( e, all ) {
     const searchStr = this.ui().searchField.val();
-    this.searchBy( searchStr );
+    this.searchBy( searchStr, all );
   }
 
   /**
@@ -60,15 +68,51 @@ export class SearchView {
   /**
    * Search for a term against station names first, then
    * as a postcode.
+   * @param {String} The search string to match against
+   * @param {Boolean} If true, show all results
    */
-  searchBy( searchStr ) {
+  searchBy( searchStr, all ) {
     if (searchStr !== "" && searchStr.length >= MIN_SEARCH_LENGTH) {
       matchStations( {label: searchStr} ).then( results => {
-        this.clearCurrentSearchResults();
-        this.summariseSearchResults( results );
-        this.showCurrentSearchResults( results );
+        if (results.length > 0) {
+            this.summariseSearchResults( results );
+          this.showCurrentSearchResults( results, all );
+        }
+        else {
+          this.postcodeSearch( searchStr );
+        }
       });
     }
+  }
+
+  /**
+   * Search string has not matched a station name, so try it as a postcode
+   * instead.
+   * @param {String} search string that does not match any station names
+   */
+  postcodeSearch( searchStr ) {
+    lookupPostcode( searchStr ).then( result => {
+      if (result) {
+        this.searchByLocation( result.latitude, result.longitude );
+      }
+      else {
+        this.summariseSearchResults( [] );
+        this.ui().searchResults.removeClass("hidden");
+      }
+    }, () => {
+      this.summariseSearchResults( [] );
+    } );
+  }
+
+  searchByLocation( lat, lng ) {
+    allStations( {
+      lat: lat,
+      long: lng,
+      dist: LOCATION_SEARCH_KM
+    } ).then( results => {
+      this.summariseSearchResults( results, true );
+      this.showCurrentSearchResults( results );
+    } );
   }
 
   /**
@@ -82,10 +126,14 @@ export class SearchView {
   /**
    * Display a list of current search results
    */
-  showCurrentSearchResults( results ) {
+  showCurrentSearchResults( results, all ) {
     const list = this.ui().searchResultsList;
     const formatResult = _.bind( this.presentResult, this );
-    const displayedResults = _.slice( results.sort(), 0, MAX_RESULTS );
+    const limit = all ? results.length : MAX_RESULTS;
+    const sortedResults = _.sortBy( results, result => {
+      return result.label();
+    } );
+    const displayedResults = _.slice( sortedResults, 0, limit );
     const remainder = results.length - displayedResults.length;
 
     _.each( displayedResults, result => {
@@ -93,7 +141,7 @@ export class SearchView {
     } );
 
     if (remainder > 0) {
-      list.append( `<li class='o-search-results--expand'>${remainder} more ... <a href='#' class=''>show all</a></li>` );
+      list.append( `<li class='o-search-results--expand'>${remainder} more ... <a href='#' class='js-action-show-all'>show all</a></li>` );
     }
 
     this.ui().searchResults.removeClass("hidden");
@@ -102,18 +150,24 @@ export class SearchView {
   /**
    * Summarise the number of results found
    */
-  summariseSearchResults( results ) {
+  summariseSearchResults( results, distanceSearch ) {
+    this.clearCurrentSearchResults();
+
     const summary = this.ui().searchResultsSummary;
+    const location = distanceSearch ?
+      ` near to ${this.ui().searchField.val().toLocaleUpperCase()}` :
+      "";
+    const resultType = distanceSearch ? ["location", "locations"] : ["match", "matches"];
 
     switch( results.length ) {
     case 0:
       summary.html("No matches.");
       break;
     case 1:
-      summary.html("Found one match.");
+      summary.html(`Found one ${resultType[0]}${location}.`);
       break;
     default:
-      summary.html(`Found ${results.length} matches`);
+      summary.html(`Found ${results.length} ${resultType[1]}${location}`);
     }
   }
 

@@ -3,7 +3,9 @@ import $ from "jquery";
 import moment from "moment";
 import {stationMeasures} from "../services/rainfall-api.es";
 import {READINGS_DATE_FORMAT} from "../models/reading.es";
-import Chartist from "chartist";
+const Chartist = require( "chartist" );
+window.Chartist = Chartist;
+require( "chartist-plugin-axistitle" );
 
 const DEFAULT_LIMIT = 2000;
 
@@ -16,7 +18,8 @@ export class RainfallGraphView {
     this._station = station;
     stationMeasures( station.stationId(), {
       since: this.rainfallDisplayPeriod(),
-      _limit: DEFAULT_LIMIT
+      _limit: DEFAULT_LIMIT,
+      parameter: "rainfall"
     }).then( _.bind( this.collectMeasures, this ) );
   }
 
@@ -34,12 +37,33 @@ export class RainfallGraphView {
     const graphOptions = {
       axisX: {
         type: Chartist.FixedScaleAxis,
-        divisor: 5,
+        divisor: 4,
         labelInterpolationFnc: value => {
           return moment(value).format("D MMM");
         }
-      }};
-    new Chartist.Bar( `li[data-station-id=${stationId}] .ct-chart`,
+      },
+      axisY: {
+        labelInterpolationFnc: value => {
+          return `${value.toFixed(1)}`;
+        }
+      },
+      plugins: [
+        Chartist.plugins.ctAxisTitle({
+          axisY: {
+            axisTitle: "Rainfall (mm)",
+            axisClass: "ct-axis-title",
+            offset: {
+              x: 0,
+              y: 12
+            },
+            textAnchor: "middle",
+            flipTitle: true
+          },
+          axisX: {}
+        })
+      ]
+    };
+    new Chartist.Bar( `li[data-station-id='${stationId}'] .ct-chart`,
                       {series: this.createSeries( totals )},
                       graphOptions );
   }
@@ -61,11 +85,11 @@ export class RainfallGraphView {
   }
 
   displayLatest( latest, stationId ) {
-    $(`[data-station-id=${stationId}].js-reading-value`)
+    $(`[data-station-id='${stationId}'].js-reading-value`)
       .text( latest.value() );
-    $(`[data-station-id=${stationId}].js-reading-date`)
+    $(`[data-station-id='${stationId}'].js-reading-date`)
       .text( latest.formattedDate() );
-    $(`[data-station-id=${stationId}].js-reading-time`)
+    $(`[data-station-id='${stationId}'].js-reading-time`)
       .text( latest.formattedTime() );
   }
 

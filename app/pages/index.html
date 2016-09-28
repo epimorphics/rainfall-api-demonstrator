@@ -3,6 +3,21 @@
 {% block content %}
 <div class="container">
   <div class="row">
+    <div class="col-sm-12 col-md-9">
+      <h2>Rainfall API demonstrator</h2>
+      <p class="text-muted">
+        Browse data from the network of tipping-gauge rainfall sensors maintained
+        by the
+        <a href="https://www.gov.uk/government/organisations/environment-agency">Environment Agency</a>,
+        available as open linked-data via the
+        <a href="http://environment.data.gov.uk/flood-monitoring/doc/rainfall">
+          Rainfall API
+        </a>.
+        Note: this is a new service. Historical data prior to September 22nd 2016 may be incomplete.
+      </p>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-sm-6">
       {% include "partials/map.html" %}
     </div>
@@ -14,4 +29,6 @@
 
   {% include "partials/station-details.html" %}
 </div>
+
+{% include "partials/api-details-modal.html" %}
 {% endblock %}

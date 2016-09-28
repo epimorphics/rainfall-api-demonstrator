@@ -42,10 +42,15 @@ export class StationDetailsView {
   }
 
   stationDescription( station ) {
+    const dsi = `data-station-id='${station.stationId()}'`;
+    const dsn = `data-station-name='${station.label()}'`;
+
     return [
       "<div class='row'>",
       "  <div class='col-sm-12'>",
-      `    <h3 class='c-station-detail--title'>${station.label()}</h3>`,
+      `    <h3 class='c-station-detail--title'>${station.label()}`,
+      `      <button type="button" class="c-api-details-btn js-action-show-api-details" ${dsi} ${dsn}>api details</button>`,
+      "    </h3>",
       "  </div>",
       "  <div class='col-sm-6'>",
       "    <div class='row'>",
@@ -58,7 +63,7 @@ export class StationDetailsView {
       "    </div>",
       "  </div>",
       "  <div class='col-sm-6'>",
-      `    <div class='c-rainfall-graph ct-chart ct-major-twelfth' data-station-id='${station.stationId()}'></div>`,
+      `    <div class='c-rainfall-graph ct-chart ct-double-octave' ${dsi}></div>`,
       "  </div>",
       "</div>"
     ].join("\n");

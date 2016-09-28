@@ -7,6 +7,7 @@
     "babel-polyfill": "^6.13.0",
     "bootstrap-sass": "^3.3.7",
     "chartist": "^0.9.8",
+    "chartist-plugin-axistitle": "0.0.1",
     "font-awesome": "^4.6.3",
     "jquery": "^3.1.0",
     "jsdom": "^9.5.0",
