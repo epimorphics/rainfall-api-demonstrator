@@ -1,3 +1,4 @@
+require("babel-polyfill");
 import $ from "jquery";
 import _ from "lodash";
 

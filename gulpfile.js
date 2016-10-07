@@ -97,6 +97,7 @@ function browserSyncTask( done ) {
     server: {
       baseDir: "build"
     },
+    host: "0.0.0.0",
     browser: ["chromium-browser"]
   });
   done();
