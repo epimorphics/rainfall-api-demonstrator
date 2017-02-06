@@ -36,6 +36,7 @@
     "eslint-plugin-react": "^6.9.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-eslint": "^3.0.1",
     "gulp-mocha": "^3.0.1",
     "gulp-nunjucks-render": "^2.0.0",
     "gulp-sass": "^3.1.0",
