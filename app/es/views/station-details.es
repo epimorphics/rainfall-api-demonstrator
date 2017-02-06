@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import { stationWithId } from '../models/stations.es';
-import { RainfallGraphView } from './rainfall-graph.es';
+import RainfallGraphView from './rainfall-graph.es';
 
 /* Support functions */
 

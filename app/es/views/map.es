@@ -28,6 +28,17 @@ function triggerSelected(stationId, selected) {
   $('body').trigger('rainfall-demo.selected', [stationId, selected]);
 }
 
+/** Select the given marker */
+function selectMarker(marker, selected, noTrigger) {
+  if (marker.options.selected !== selected) {
+    marker.options.selected = selected;
+    marker.setIcon(markerIconForStatus(selected));
+    if (!noTrigger) {
+      triggerSelected(marker.options.stationId, selected);
+    }
+  }
+}
+
 
 class MapView {
   constructor(selectedStations) {
@@ -99,24 +110,14 @@ class MapView {
     const stationId = marker.options.stationId;
     const nowSelected = !this.selectedStationsRef.isSelected(stationId);
     this.selectedStationsRef.setSelected(stationId, nowSelected);
-    this.selectMarker(marker, nowSelected);
-  }
-
-  selectMarker(marker, selected, noTrigger) {
-    if (marker.options.selected !== selected) {
-      marker.options.selected = selected;
-      marker.setIcon(this.markerIconForStatus(selected));
-      if (!noTrigger) {
-        triggerSelected(marker.options.stationId, selected);
-      }
-    }
+    selectMarker(marker, nowSelected);
   }
 
   // events
 
   /** Ensure that map marker status stays in sync with selection status from other components */
   onStationSelected(event, stationId, selected) {
-    const selectMarkerFn = _.bind(this.selectMarker, this);
+    const selectMarkerFn = _.bind(selectMarker, this);
 
     this.mapRef.eachLayer((layer) => {
       if (layer.options.stationId === stationId && layer.options.selected !== selected) {
