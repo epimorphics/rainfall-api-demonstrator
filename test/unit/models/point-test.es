@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { Point } from '../../../app/es/models/point.es';
+import Point from '../../../app/es/models/point.es';
 
 describe('Point', () => {
   it('should encode a point using a given spatial-reference system', () => {

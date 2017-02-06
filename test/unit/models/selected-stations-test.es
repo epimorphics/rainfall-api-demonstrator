@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { SelectedStations } from '../../../app/es/models/selected-stations.es';
+import SelectedStations from '../../../app/es/models/selected-stations.es';
 
 describe('SelectedStations', () => {
   it('should show that a station is not selected initially', () => {

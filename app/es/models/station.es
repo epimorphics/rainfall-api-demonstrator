@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Point } from './point.es';
+import Point from './point.es';
 
 /* Support functions */
 
