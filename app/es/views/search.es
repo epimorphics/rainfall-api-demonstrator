@@ -14,6 +14,14 @@ const MAX_RESULTS = 20;
 /** Nearness of location search results to a point, in km */
 const LOCATION_SEARCH_KM = 10;
 
+/* Support functions */
+
+/** Notify other components that the selection state has changed */
+function triggerSelected(stationId, selected) {
+  $('body').trigger('rainfall-demo.selected', [stationId, selected]);
+}
+
+
 /**
  * A view which listens to user inputs, and matches stations by name or
  * by location (expressed as a postcode)
@@ -63,7 +71,7 @@ class SearchView {
     const selected = elem.is(':checked');
 
     this.refSelectedStations.setSelected(stationId, selected);
-    SearchView.triggerSelected(stationId, selected);
+    triggerSelected(stationId, selected);
   }
 
   /**
@@ -202,11 +210,6 @@ class SearchView {
   }
 
   // events
-
-  /** Notify other components that the selection state has changed */
-  static triggerSelected(stationId, selected) {
-    $('body').trigger('rainfall-demo.selected', [stationId, selected]);
-  }
 
   /** Ensure that checkbox state stays in sync with changes to selected state */
   onStationSelected(event, stationId, selected) {
