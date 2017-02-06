@@ -47,18 +47,18 @@ describe('stations model', () => {
   );
 
   it('should match stations by name', () =>
-    matchStations({ label: 'rain' }).then((stations) => {
+    matchStations({ label: '42' }).then((stations) => {
       expect(stations.length).to.be.above(0);
       _.each(stations, (station) => {
-        expect(station.label().toLocaleLowerCase()).to.include('rain');
+        expect(station.label().toLocaleLowerCase()).to.include('42');
       });
     }),
   );
 
   it('should match stations by multiple criteria', () =>
-    matchStations({ label: 'ro', notation: 'E7050' }).then((stations) => {
+    matchStations({ label: 'Station', notation: '49172' }).then((stations) => {
       expect(stations.length).to.equal(1);
-      expect(stations[0].label()).to.equal('Crowhurst');
+      expect(stations[0].label()).to.equal('Station 49172');
     }),
   );
 
@@ -70,7 +70,7 @@ describe('stations model', () => {
 
   it('should return a station if the ID matches', () =>
     stationWithId('52203').then((station) => {
-      expect(station.label()).to.equal('Rainfall station');
+      expect(station.label()).to.equal('Station 52203');
     }),
   );
 

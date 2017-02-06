@@ -18,16 +18,19 @@ class Station {
     return this.json['@id'];
   }
 
+  /** @return The label for this station. Since actual station name has now been redacted, we
+   *  interpret this to refer to the station ID instead. */
   label() {
-    return this.valueOrDefault('label');
+    const id = this.stationId();
+    return id ? `Station ${id}` : '';
   }
 
   riverName() {
-    return this.valueOrDefault('riverName');
+    return this.get('riverName');
   }
 
   catchmentName() {
-    return this.valueOrDefault('catchmentName');
+    return this.get('catchmentName');
   }
 
   notation() {
@@ -38,6 +41,10 @@ class Station {
     return this.notation();
   }
 
+  eaRegionName() {
+    return this.get('eaRegionName');
+  }
+
   status() {
     const statusURI = this.json.status || null;
     return statusURI &&
@@ -46,7 +53,7 @@ class Station {
   }
 
   get(path) {
-    return _.get(this.json, path);
+    return _.get(this.json, path, defaultLabel());
   }
 
   location(srs) {
@@ -63,10 +70,6 @@ class Station {
 
   locationWgs84() {
     return new Point(this.json.long, this.json.lat, 'wgs84');
-  }
-
-  valueOrDefault(field) {
-    return this.json[field] || defaultLabel();
   }
 }
 
