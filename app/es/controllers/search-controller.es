@@ -1,5 +1,5 @@
 import { SelectedStations } from '../models/selected-stations.es';
-import { SearchView } from '../views/search.es';
+import SearchView from '../views/search.es';
 import { MapView } from '../views/map.es';
 import { StationDetailsView } from '../views/station-details.es';
 import { ApiDetailsView } from '../views/api-details.es';

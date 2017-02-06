@@ -1,13 +1,11 @@
-require("babel-polyfill");
-import $ from "jquery";
-import _ from "lodash";
+import $ from 'jquery';
 
-import {UserPreferences} from "./services/user-preferences.es";
-import {SearchController} from "./controllers/search-controller.es";
+import UserPreferences from './services/user-preferences.es';
+import { SearchController } from './controllers/search-controller.es';
 
-console.log("starting app.es");
+require('babel-polyfill');
 
 $(() => {
-  let userPreferences = UserPreferences.currentPreference();
-  let searchController = new SearchController();
+  UserPreferences.currentPreference();
+  return new SearchController();
 });
