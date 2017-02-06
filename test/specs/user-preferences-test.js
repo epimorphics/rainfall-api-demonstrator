@@ -1,7 +1,7 @@
-import assert from "assert";
+// import assert from 'assert';
 /* global describe */
 
-describe("user preferences", () => {
+describe('user preferences', () => {
   // it("does not set the river name if no parameter is given", () => {
   //   browser.url("/user-preferences-fixture.html");
   //   const riverName = browser.element( "#riverName").getValue();
