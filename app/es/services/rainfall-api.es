@@ -2,7 +2,7 @@
 import request from 'superagent';
 import { _ } from 'lodash';
 
-import { Station } from '../models/station.es';
+import Station from '../models/station.es';
 import { Reading } from '../models/reading.es';
 
 /** The root of the API URLs */

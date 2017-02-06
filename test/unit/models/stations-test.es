@@ -7,7 +7,7 @@ import { stationsCollection, hasCachedStations,
          stationNames, riverNames,
          catchmentNames, matchStations,
          stationWithId } from '../../../app/es/models/stations.es';
-import { Station } from '../../../app/es/models/station.es';
+import Station from '../../../app/es/models/station.es';
 
 describe('stations model', () => {
   it('should provide a promise of a collection of stations', () => {

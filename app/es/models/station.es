@@ -1,30 +1,30 @@
-import {Point} from "./point.es";
-import _ from "lodash";
+import _ from 'lodash';
+import { Point } from './point.es';
 
 /** Encapsulates an immutable value returned from the API representing a station */
-export class Station {
-  constructor( json ) {
+class Station {
+  constructor(json) {
     this.json = json;
   }
 
   uri() {
-    return this.json["@id"];
+    return this.json['@id'];
   }
 
   label() {
-    return this.valueOrDefault( "label" );
+    return this.valueOrDefault('label');
   }
 
   riverName() {
-    return this.valueOrDefault( "riverName" );
+    return this.valueOrDefault('riverName');
   }
 
   catchmentName() {
-    return this.valueOrDefault( "catchmentName" );
+    return this.valueOrDefault('catchmentName');
   }
 
   notation() {
-    return this.json["notation"];
+    return this.json.notation;
   }
 
   stationId() {
@@ -34,35 +34,37 @@ export class Station {
   status() {
     const statusURI = this.json.status || null;
     return statusURI &&
-      statusURI.replace( /^.*\/status/, "" )
+      statusURI.replace(/^.*\/status/, '')
       .toLocaleLowerCase();
   }
 
-  get( path ) {
-    return _.get( this.json, path );
+  get(path) {
+    return _.get(this.json, path);
   }
 
-  location( srs ) {
-    switch(srs) {
-    case "osgb": return this.locationOsgb();
-    case "wgs84": return this.locationWgs84();
-    default: throw( "Unknown spatial reference system" );
+  location(srs) {
+    switch (srs) {
+      case 'osgb': return this.locationOsgb();
+      case 'wgs84': return this.locationWgs84();
+      default: throw new Error('Unknown spatial reference system');
     }
   }
 
   locationOsgb() {
-    return new Point( this.json.easting, this.json.northing, "osgb" );
+    return new Point(this.json.easting, this.json.northing, 'osgb');
   }
 
   locationWgs84() {
-    return new Point( this.json.long, this.json.lat, "wgs84" );
+    return new Point(this.json.long, this.json.lat, 'wgs84');
   }
 
-  defaultLabel() {
-    return "";
+  static defaultLabel() {
+    return '';
   }
 
-  valueOrDefault( field ) {
-    return this.json[field] || this.defaultLabel();
+  valueOrDefault(field) {
+    return this.json[field] || Station.defaultLabel();
   }
 }
+
+export { Station as default };

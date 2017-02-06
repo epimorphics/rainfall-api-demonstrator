@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { Station } from '../../../app/es/models/station.es';
+import Station from '../../../app/es/models/station.es';
 
 const STATION_FIXTURE = {
   '@id': 'http://environment.data.gov.uk/flood-monitoring/id/stations/E7050',
