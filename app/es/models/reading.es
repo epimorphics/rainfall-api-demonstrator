@@ -1,28 +1,28 @@
-import _ from "lodash";
-import moment from "moment";
+import _ from 'lodash';
+import moment from 'moment';
 
-export const READINGS_DATE_FORMAT = "D MMM YYYY";
+export const READINGS_DATE_FORMAT = 'D MMM YYYY';
 
 /** Encapsulate a reading from a rainfall station */
 export class Reading {
-  constructor( json ) {
-    this._json = json;
+  constructor(json) {
+    this.jsonRef = json;
   }
 
   uri() {
-    return this.get( "@id");
+    return this.get('@id');
   }
 
   value() {
-    return this.get( "value" );
+    return this.get('value');
   }
 
   dateTimeStr() {
-    return this.get( "dateTime" );
+    return this.get('dateTime');
   }
 
   dateTime() {
-    return moment( this.dateTimeStr() ).utc();
+    return moment(this.dateTimeStr()).utc();
   }
 
   jsDate() {
@@ -30,14 +30,14 @@ export class Reading {
   }
 
   formattedTime() {
-    return this.dateTime().format( "HH:mm:ss" );
+    return this.dateTime().format('HH:mm:ss');
   }
 
   formattedDate() {
-    return this.dateTime().format( READINGS_DATE_FORMAT );
+    return this.dateTime().format(READINGS_DATE_FORMAT);
   }
 
-  get( path ) {
-    return _.get( this._json, path );
+  get(path) {
+    return _.get(this.jsonRef, path);
   }
 }
