@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { jsdom } from 'jsdom';
-import { UserPreferences } from '../../../app/es/services/user-preferences.es';
+import UserPreferences from '../../../app/es/services/user-preferences.es';
 
 
 global.document = jsdom('<body></body>');
