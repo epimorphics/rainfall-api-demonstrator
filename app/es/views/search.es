@@ -1,5 +1,5 @@
 import { matchStations } from '../models/stations.es';
-import { lookupPostcode } from '../services/postcodes-api.es';
+import lookupPostcode from '../services/postcodes-api.es';
 import { allStations } from '../services/rainfall-api.es';
 
 const $ = require('jquery');
