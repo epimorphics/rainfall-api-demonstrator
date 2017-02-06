@@ -5,6 +5,8 @@ import _ from 'lodash';
 /** The singleton instance of the preference model */
 let currentPreferenceModel = null;
 
+/* Support functions */
+
 /** Encapsulates the user's current search prefernce, which can also be
  *  instantiated from URL parameters
  */

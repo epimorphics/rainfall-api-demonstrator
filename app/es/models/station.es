@@ -1,6 +1,13 @@
 import _ from 'lodash';
 import { Point } from './point.es';
 
+/* Support functions */
+
+function defaultLabel() {
+  return '';
+}
+
+
 /** Encapsulates an immutable value returned from the API representing a station */
 class Station {
   constructor(json) {
@@ -58,12 +65,8 @@ class Station {
     return new Point(this.json.long, this.json.lat, 'wgs84');
   }
 
-  static defaultLabel() {
-    return '';
-  }
-
   valueOrDefault(field) {
-    return this.json[field] || Station.defaultLabel();
+    return this.json[field] || defaultLabel();
   }
 }
 
