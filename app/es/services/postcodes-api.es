@@ -1,7 +1,7 @@
 /* Simple service object for retrieving contents from Rainfall HTTP API */
 import request from 'superagent';
 
-const POSTCODE_ENDPOINT = 'http://api.postcodes.io/postcodes';
+const POSTCODE_ENDPOINT = '//api.postcodes.io/postcodes';
 
 /**
  * Perform an HTTP GET on the remote API end-point, and return a

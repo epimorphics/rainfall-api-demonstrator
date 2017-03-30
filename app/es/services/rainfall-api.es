@@ -6,8 +6,7 @@ import Station from '../models/station.es';
 import { Reading } from '../models/reading.es';
 
 /** The root of the API URLs */
-// const API_ROOT = 'http://ea-floods-testing.epimorphics.net';
-const API_ROOT = 'http://environment.data.gov.uk';
+const API_ROOT = '//environment.data.gov.uk';
 
 /** API endpoint for retrieving stations */
 const STATIONS_ENDPOINT = '/flood-monitoring/id/stations';

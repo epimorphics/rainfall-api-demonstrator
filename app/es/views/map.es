@@ -51,8 +51,8 @@ class MapView {
   initMap() {
     this.mapRef = L.map('map').setView([51.505, -0.09], 13);
 
-    const osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    const osmAttrib = "Map data © <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors";
+    const osmUrl = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const osmAttrib = "Map data © <a href='//openstreetmap.org'>OpenStreetMap</a> contributors";
     const osm = new L.TileLayer(osmUrl, { minZoom: 0, maxZoom: 12, attribution: osmAttrib });
 
     // start the map in South-East England
