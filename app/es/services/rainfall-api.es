@@ -18,7 +18,8 @@ const STATIONS_ENDPOINT = '/flood-monitoring/id/stations';
  * @param data An object encoding the URL parameters of the API call
  */
 function getJSON(apiPath, params) {
-  const api = `${API_ROOT}${apiPath}`;
+  const protocol = window.location.protocol !== 'about:' ? window.location.protocol : 'https:';
+  const api = `${protocol}${API_ROOT}${apiPath}`;
   return request
     .get(api)
     .accept('application/json')
