@@ -51,7 +51,7 @@ gulp.task('compile:fonts', fontsTask);
 function sassTask() {
   return gulp
     .src('app/scss/**/*.scss')
-    .pipe(sass())
+    .pipe(sass({includePaths: ['node_modules']}))
     .pipe(gulp.dest('build/css'));
 }
 gulp.task('compile:sass', sassTask);

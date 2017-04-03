@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
-// libraries
+// libraries come from node_modules added to path
 @import
   // Bootstrap
-  "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap",
+  "bootstrap-sass/assets/stylesheets/bootstrap",
   // Font-awesome
-  "../../node_modules/font-awesome/scss/font-awesome",
+  "font-awesome/scss/font-awesome",
   // typeahead
-  "../../node_modules/typeahead/style",
+  "typeahead/style",
   // leaflet
-  "../../node_modules/leaflet/dist/leaflet",
-  "../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default",
+  "leaflet/dist/leaflet",
+  "leaflet.markercluster/dist/MarkerCluster.Default",
   // chartist
   "chartist-settings",
-  "../../node_modules/chartist/dist/scss/chartist";
+  "chartist/dist/scss/chartist";
 
 // application code
 @import
