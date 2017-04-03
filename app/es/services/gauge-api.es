@@ -1,4 +1,4 @@
-/* Simple service object for retrieving contents from Rainfall HTTP API */
+/* Simple service object for retrieving contents from the HTTP API */
 import request from 'superagent';
 import { _ } from 'lodash';
 
@@ -46,7 +46,7 @@ function wrapValues(ValueClass, items) {
 
 /**
  * @return A promise which will resolve to an array of all of the
- * current rainfall stations, with basic metadata. Each element
+ * current stations, with basic metadata. Each element
  * of the array will be a Station value object
  */
 export function allStations(options) {
@@ -67,7 +67,7 @@ export function stationDetails(stationId) {
 }
 
 /**
- * @return A promise of a collection of rainfall readings for a given
+ * @return A promise of a collection of station readings for a given
  * time period
  * @param {String} The ID of the station for which data is requested
  * @param {Object} Additional parameters, e.g. the limit and time period

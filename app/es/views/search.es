@@ -1,6 +1,6 @@
 import { matchStations } from '../models/stations.es';
 import lookupPostcode from '../services/postcodes-api.es';
-import { allStations } from '../services/rainfall-api.es';
+import { allStations } from '../services/gauge-api.es';
 
 const $ = require('jquery');
 const _ = require('lodash');
@@ -18,7 +18,7 @@ const LOCATION_SEARCH_KM = 10;
 
 /** Notify other components that the selection state has changed */
 function triggerSelected(stationId, selected) {
-  $('body').trigger('rainfall-demo.selected', [stationId, selected]);
+  $('body').trigger('map.selected', [stationId, selected]);
 }
 
 
@@ -51,7 +51,7 @@ class SearchView {
       onSearchBound(e, true);
     });
 
-    $('body').on('rainfall-demo.selected', _.bind(this.onStationSelected, this));
+    $('body').on('map.selected', _.bind(this.onStationSelected, this));
   }
 
   /**

@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export const READINGS_DATE_FORMAT = 'D MMM YYYY';
 
-/** Encapsulate a reading from a rainfall station */
+/** Encapsulate a reading from a station */
 export class Reading {
   constructor(json) {
     this.jsonRef = json;

@@ -28,10 +28,10 @@ function showApiDetails(stationId, stationName) {
                `/flood-monitoring/id/stations/${stationId}`);
   setHref('.js-station-measures-link',
                `/flood-monitoring/id/stations/${stationId}/measures`);
-  setHref('.js-station-rainfall-readings-link',
+  setHref('.js-station-readings-link',
                `/flood-monitoring/id/stations/${stationId}/readings`,
                '?_limit=100&_sorted&parameter=rainfall');
-  setHref('.js-station-rainfall-readings-today-link',
+  setHref('.js-station-readings-today-link',
                `/flood-monitoring/id/stations/${stationId}/readings`,
                '?today&_sorted&parameter=rainfall');
 

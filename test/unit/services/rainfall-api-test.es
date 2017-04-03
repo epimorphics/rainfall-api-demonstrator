@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { _ } from 'lodash';
 
-import { allStations } from '../../../app/es/services/rainfall-api.es';
+import { allStations } from '../../../app/es/services/gauge-api.es';
 import Station from '../../../app/es/models/station.es';
 
 describe('rainfall-api', () => {
@@ -23,4 +23,3 @@ describe('rainfall-api', () => {
     }),
   );
 });
-

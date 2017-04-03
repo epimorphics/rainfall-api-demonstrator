@@ -1,7 +1,7 @@
 import { _ } from 'lodash';
-import { allStations, stationDetails } from '../services/rainfall-api.es';
+import { allStations, stationDetails } from '../services/gauge-api.es';
 
-/** Cached array of rainfall stations */
+/** Cached array of stations */
 let stations;
 let stationsPromise;
 
@@ -30,7 +30,7 @@ function compactify(arr, fieldFn) {
    ));
 }
 
-/** @return A promise of an array of all of the rainfall stations */
+/** @return A promise of an array of all of the stations */
 export function stationsCollection() {
   if (stations) {
     return Promise.resolve(stations);
@@ -84,4 +84,3 @@ export function matchStations(conditions) {
 export function stationWithId(stationId) {
   return stationDetails(stationId);
 }
-

@@ -24,7 +24,7 @@ function markerIconForStatus(selected) {
 
 /** Notify other components that the selection state has changed */
 function triggerSelected(stationId, selected) {
-  $('body').trigger('rainfall-demo.selected', [stationId, selected]);
+  $('body').trigger('map.selected', [stationId, selected]);
 }
 
 /** Select the given marker */
@@ -63,7 +63,7 @@ class MapView {
   }
 
   initEvents() {
-    $('body').on('rainfall-demo.selected', _.bind(this.onStationSelected, this));
+    $('body').on('map.selected', _.bind(this.onStationSelected, this));
   }
 
   addStationMarkers() {

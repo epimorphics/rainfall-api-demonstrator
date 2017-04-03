@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import $ from 'jquery';
 import moment from 'moment';
-import { stationMeasures } from '../services/rainfall-api.es';
+import { stationMeasures } from '../services/gauge-api.es';
 import { READINGS_DATE_FORMAT } from '../models/reading.es';
 
 const Chartist = require('chartist');
@@ -51,8 +51,8 @@ function createSeries(totals) {
   }];
 }
 
-/* Return the period over which we display rainfall */
-function rainfallDisplayPeriod() {
+/* Return the period over which we display graph */
+function graphDisplayPeriod() {
   return moment
     .utc()
     .subtract(1, 'months')
@@ -71,14 +71,14 @@ function displayLatest(latest, stationId) {
 
 
 /**
- * View class that manages collecting a one-month window of rainfall data for a
+ * View class that manages collecting a one-month window of data for a
  * given station and displaying that as a graph
  */
 class RainfallGraphView {
   constructor(station) {
     this.stationRef = station;
     stationMeasures(station.stationId(), {
-      since: rainfallDisplayPeriod(),
+      since: graphDisplayPeriod(),
       _limit: DEFAULT_LIMIT,
       parameter: 'rainfall',
       _sorted: true,

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'lodash';
 import { stationWithId } from '../models/stations.es';
-import RainfallGraphView from './rainfall-graph.es';
+import GraphView from './readings-graph.es';
 
 /* Support functions */
 
@@ -74,7 +74,7 @@ function stationDescription(station) {
     '    </div>',
     '  </div>',
     "  <div class='col-sm-6'>",
-    `    <div class='c-rainfall-graph ct-chart ct-double-octave' ${dsi}></div>`,
+    `    <div class='c-readings-graph ct-chart ct-double-octave' ${dsi}></div>`,
     '  </div>',
     '</div>',
   ].join('\n');
@@ -94,7 +94,7 @@ class StationDetailsView {
   }
 
   initEvents() {
-    $('body').on('rainfall-demo.selected', _.bind(this.onStationSelected, this));
+    $('body').on('map.selected', _.bind(this.onStationSelected, this));
   }
 
   onStationSelected(event, stationId, selected) {
@@ -115,7 +115,7 @@ class StationDetailsView {
       `<li class='c-station-detail' data-station-id='${station.notation()}'>${stationDesc}</li>`;
     this.ui().stationDetailsList.append(elem);
 
-    return new RainfallGraphView(station);
+    return new GraphView(station);
   }
 
   ui() {
