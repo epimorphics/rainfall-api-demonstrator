@@ -55,19 +55,6 @@ describe('stations model', () => {
     }),
   );
 
-  it('should match stations by multiple criteria', () =>
-    matchStations({ label: 'Station', notation: '49172' }).then((stations) => {
-      expect(stations.length).to.equal(1);
-      expect(stations[0].label()).to.equal('Station 49172');
-    }),
-  );
-
-  it('should return an empty list if no criteria match', () =>
-    matchStations({ label: 'Deputy Dawg' }).then((stations) => {
-      expect(stations).to.deep.equal([]);
-    }),
-  );
-
   it('should return a station if the ID matches', () =>
     stationWithId('52203').then((station) => {
       expect(station.label()).to.equal('Station 52203');
