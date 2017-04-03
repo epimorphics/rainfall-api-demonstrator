@@ -135,6 +135,7 @@ function testUnitTask() {
   return gulp
     .src(['test/unit/**/*.+(js|es)'])
     .pipe(gulpMocha({
+       timeout: 5000
     }));
 }
 gulp.task('test:unit', testUnitTask);
