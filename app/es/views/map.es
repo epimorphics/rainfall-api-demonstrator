@@ -11,16 +11,15 @@ require('leaflet.markercluster');
 
 /* Return the marker for a selected site */
 function selectedMarkerIcon() {
-  return L.Icon.Default.extend({
-    options: {
-      iconUrl: 'marker-icon-selected.png',
-    },
+  return L.icon({
+    iconUrl: 'images/marker-icon-selected.png',
+    iconAnchor: [12, 41],
   });
 }
 
 /* Return the marker for a site by status */
 function markerIconForStatus(selected) {
-  return selected ? new (selectedMarkerIcon())() : new L.Icon.Default();
+  return selected ? selectedMarkerIcon() : new L.Icon.Default();
 }
 
 /** Notify other components that the selection state has changed */
