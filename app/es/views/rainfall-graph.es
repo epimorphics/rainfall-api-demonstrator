@@ -11,7 +11,7 @@ const Chartist = require('chartist');
 window.Chartist = Chartist;
 require('chartist-plugin-axistitle');
 
-const DEFAULT_LIMIT = 2000;
+const DEFAULT_LIMIT = 3000; // 2976 for a month of results. 4 (hour) * 24 (day) * 31
 
 /* Utility function to aggregate to group measures together */
 function aggregateMeasures(measures) {
@@ -81,6 +81,7 @@ class RainfallGraphView {
       since: rainfallDisplayPeriod(),
       _limit: DEFAULT_LIMIT,
       parameter: 'rainfall',
+      _sorted: true,
     }).then(_.bind(this.collectMeasures, this));
   }
 
