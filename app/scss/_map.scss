@@ -2,3 +2,7 @@
   height: 400px;
   width: 100%;
 }
+
+.leaflet-marker-icon:focus {
+    outline: none;
+}
